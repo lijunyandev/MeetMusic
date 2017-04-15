@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_scan"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:activity="com.lijunyan.blackmusic.activity.ScanActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/scan_music_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <com.lijunyan.blackmusic.view.ScanView
+        android:id="@+id/scan_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp">
+    </com.lijunyan.blackmusic.view.ScanView>
+
+    <TextView
+        android:id="@+id/scan_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginTop="3dp"
+        android:layout_below="@id/scan_view"/>
+
+    <TextView
+        android:id="@+id/scan_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scan_progress"
+        android:layout_margin="20dp"
+        android:maxLines="1"
+        android:ellipsize="start"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/scan_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scan_path"
+        android:layout_centerHorizontal="true"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+    <Button
+        android:id="@+id/start_scan_btn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:text="开始扫描"/>
+</RelativeLayout>

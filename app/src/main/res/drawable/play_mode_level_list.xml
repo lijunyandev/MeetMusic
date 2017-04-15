@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@drawable/selector_play_mode_cycle"
+        android:maxLevel="0" />
+    <item
+        android:drawable="@drawable/selector_play_mode_single_cycle"
+        android:maxLevel="1" />
+    <item
+        android:drawable="@drawable/selector_play_mode_random"
+        android:maxLevel="2" />
+</level-list>

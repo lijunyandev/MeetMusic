@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_local_music"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:activity="com.lijunyan.blackmusic.activity.LocalMusicActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/local_music_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <TextView
+        android:id="@+id/local_nothing_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:clickable="true"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp"
+        android:maxLines="2"
+        android:text="暂时没有歌曲哦，点击我可以扫描本地歌曲!!!"
+        android:visibility="gone"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/local_tab"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorAccent"
+        app:tabIndicatorColor="@color/colorWhite"
+        app:tabSelectedTextColor="@color/colorWhite"
+        android:layout_below="@id/local_music_toolbar"
+        app:tabTextColor="#CCCCCC" />
+
+    <View
+        android:id="@+id/local_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/shadow_view"
+        android:layout_below="@id/local_tab"></View>
+
+    <com.lijunyan.blackmusic.view.MyViewPager
+        android:id="@+id/local_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/local_shadow"
+        android:layout_above="@id/fragment_playbar"
+        android:background="#ffffff" />
+    <FrameLayout
+        android:id="@+id/fragment_playbar"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>

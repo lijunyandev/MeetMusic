@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">音乐盒</string>
+    <string name="local_music">本地音乐</string>
+    <string name="last_play">最近播放</string>
+    <string name="scan_music">扫描音乐</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
