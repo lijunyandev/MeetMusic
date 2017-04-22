@@ -44,6 +44,13 @@ public class AlbumFragment extends Fragment {
         this.mContext = context;
     }
 
+    public void onResume() {
+        super.onResume();
+        albumInfoList.clear();
+        albumInfoList.addAll(dbManager.getAlbumList());
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);

@@ -52,7 +52,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	//创建播放历史表
 	private String createLastPlayTable = "create table if not exists " + LAST_PLAY_TABLE +" ("
-			+ ID_COLUMN +" integer PRIMARY KEY);";
+			+ ID_COLUMN +" integer,"
+			+ "FOREIGN KEY(id) REFERENCES "+ MUSIC_TABLE + " (id) ON DELETE CASCADE);";
 
 
 	//创建歌单表
@@ -64,8 +65,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private String createListinfoTable = "create table if not exists " + PLAY_LISY_MUSIC_TABLE +" ("
 			+ ID_COLUMN + " integer,"
 			+ MUSIC_ID_COLUMN + " integer,"
-			+ "FOREIGN KEY(id) REFERENCES " + PLAY_LIST_TABLE + "(id),"
-			+ "FOREIGN KEY(music_id) REFERENCES "+ MUSIC_TABLE + " (id));";
+			+ "FOREIGN KEY(id) REFERENCES " + PLAY_LIST_TABLE + "(id) ON DELETE CASCADE,"
+			+ "FOREIGN KEY(music_id) REFERENCES "+ MUSIC_TABLE + " (id) ON DELETE CASCADE) ;";
 
 
 	public DatabaseHelper(Context context) {

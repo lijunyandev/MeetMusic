@@ -35,6 +35,12 @@ public class MyMusicUtil {
             case Constant.LIST_ALLMUSIC:
                 musicInfoList = dbManager.getAllMusicFromMusicTable();
                 break;
+            case Constant.LIST_MYLOVE:
+                musicInfoList = dbManager.getAllMusicFromTable(Constant.LIST_MYLOVE);
+                break;
+            case Constant.LIST_LASTPLAY:
+                musicInfoList = dbManager.getAllMusicFromTable(Constant.LIST_LASTPLAY);
+                break;
             case Constant.LIST_PLAYLIST:
                 int listId = MyMusicUtil.getIntShared(Constant.KEY_LIST_ID);
                 musicInfoList = dbManager.getMusicListByPlaylist(listId);

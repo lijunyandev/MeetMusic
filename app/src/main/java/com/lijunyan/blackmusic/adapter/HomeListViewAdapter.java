@@ -75,7 +75,6 @@ public class HomeListViewAdapter extends BaseAdapter {
         }else {
             holder = (Holder)convertView.getTag();
         }
-        final PlayListInfo playListInfo = dataList.get(position);
         if (dataList.size() == 0){
             //展现默认的新建歌单列表
             holder.listName.setText("新建歌单");
@@ -84,6 +83,7 @@ public class HomeListViewAdapter extends BaseAdapter {
             ((SwipeMenuLayout)holder.swipView).setSwipeEnable(false);
         }else {
             //展现已有的歌单列表
+            PlayListInfo playListInfo = dataList.get(position);
             holder.listName.setText(playListInfo.getName());
             holder.listCount.setText(playListInfo.getCount()+"首");
             holder.listName.setGravity(Gravity.BOTTOM);
@@ -121,7 +121,7 @@ public class HomeListViewAdapter extends BaseAdapter {
                 }else {
                     //进入歌单
                     Intent intent = new Intent(activity, PlaylistActivity.class);
-                    intent.putExtra("playlistInfo",playListInfo);
+                    intent.putExtra("playlistInfo",dataList.get(position));
                     activity.startActivity(intent);
                 }
             }

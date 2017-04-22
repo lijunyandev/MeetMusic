@@ -4,12 +4,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,10 +26,11 @@ import com.lijunyan.blackmusic.receiver.PlayerManagerReceiver;
 import com.lijunyan.blackmusic.service.MusicPlayerService;
 import com.lijunyan.blackmusic.util.Constant;
 import com.lijunyan.blackmusic.util.MyMusicUtil;
+import com.lijunyan.blackmusic.view.PlayingPopWindow;
 
 import java.util.Locale;
 
-public class PlayActivity extends AppCompatActivity implements View.OnClickListener{
+public class PlayActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = PlayActivity.class.getName();
 
@@ -38,7 +44,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView preIv;
     private ImageView nextIv;
     private ImageView modeIv;
-    
+
     private TextView curTimeTv;
     private TextView totalTimeTv;
 
@@ -57,18 +63,19 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+        setStyle();
         dbManager = DBManager.getInstance(PlayActivity.this);
         initView();
         register();
     }
 
-    private void initView(){
-        backIv = (ImageView)findViewById(R.id.iv_back);
-        playIv = (ImageView)findViewById(R.id.iv_play);
-        menuIv = (ImageView)findViewById(R.id.iv_menu);
-        preIv = (ImageView)findViewById(R.id.iv_prev);
-        nextIv = (ImageView)findViewById(R.id.iv_next);
-        modeIv = (ImageView)findViewById(R.id.iv_mode);
+    private void initView() {
+        backIv = (ImageView) findViewById(R.id.iv_back);
+        playIv = (ImageView) findViewById(R.id.iv_play);
+        menuIv = (ImageView) findViewById(R.id.iv_menu);
+        preIv = (ImageView) findViewById(R.id.iv_prev);
+        nextIv = (ImageView) findViewById(R.id.iv_next);
+        modeIv = (ImageView) findViewById(R.id.iv_mode);
         curTimeTv = (TextView) findViewById(R.id.tv_current_time);
         totalTimeTv = (TextView) findViewById(R.id.tv_total_time);
         musicNameTv = (TextView) findViewById(R.id.tv_title);
@@ -94,7 +101,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
                     intent.putExtra("cmd", Constant.COMMAND_STOP);
                     sendBroadcast(intent);
-                    Toast.makeText(PlayActivity.this, "歌曲不存在",Toast.LENGTH_LONG).show();
+                    Toast.makeText(PlayActivity.this, "歌曲不存在", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -137,13 +144,16 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.iv_prev:
                 MyMusicUtil.playPreMusic(this);
                 break;
+            case R.id.iv_menu:
+                showPopFormBottom();
+                break;
         }
     }
 
 
-    private void initPlayMode(){
+    private void initPlayMode() {
         int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
-        if (playMode == -1){
+        if (playMode == -1) {
             playMode = 0;
         }
         modeIv.setImageLevel(playMode);
@@ -152,7 +162,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     private void initTitle() {
         int musicId = MyMusicUtil.getIntShared(Constant.KEY_ID);
         if (musicId == -1) {
-            musicNameTv.setText("音乐盒");
+            musicNameTv.setText("听听音乐");
             singerNameTv.setText("好音质");
         } else {
             musicNameTv.setText(dbManager.getMusicInfo(musicId).get(1));
@@ -160,7 +170,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void initTime(){
+    private void initTime() {
         curTimeTv.setText(formatTime(current));
         totalTimeTv.setText(formatTime(duration));
 //        if (progress - mLastProgress >= 1000) {
@@ -183,49 +193,67 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 
     private void switchPlayMode() {
         int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
-        switch (playMode){
+        switch (playMode) {
             case Constant.PLAYMODE_SEQUENCE:
-                MyMusicUtil.setShared(Constant.KEY_MODE,Constant.PLAYMODE_RANDOM);
+                MyMusicUtil.setShared(Constant.KEY_MODE, Constant.PLAYMODE_RANDOM);
                 break;
             case Constant.PLAYMODE_RANDOM:
-                MyMusicUtil.setShared(Constant.KEY_MODE,Constant.PLAYMODE_SINGLE_REPEAT);
+                MyMusicUtil.setShared(Constant.KEY_MODE, Constant.PLAYMODE_SINGLE_REPEAT);
                 break;
             case Constant.PLAYMODE_SINGLE_REPEAT:
-                MyMusicUtil.setShared(Constant.KEY_MODE,Constant.PLAYMODE_SEQUENCE);
+                MyMusicUtil.setShared(Constant.KEY_MODE, Constant.PLAYMODE_SEQUENCE);
                 break;
-      }
+        }
         initPlayMode();
     }
 
-    private void play(){
-        int musicId ;
+    private void play() {
+        int musicId;
         musicId = MyMusicUtil.getIntShared(Constant.KEY_ID);
         if (musicId == -1) {
             musicId = dbManager.getFirstId(Constant.LIST_ALLMUSIC);
             Intent intent = new Intent(Constant.MP_FILTER);
             intent.putExtra(Constant.COMMAND, Constant.COMMAND_STOP);
             sendBroadcast(intent);
-            Toast.makeText(PlayActivity.this, "歌曲不存在",Toast.LENGTH_SHORT).show();
+            Toast.makeText(PlayActivity.this, "歌曲不存在", Toast.LENGTH_SHORT).show();
             return;
         }
         //如果当前媒体在播放音乐状态，则图片显示暂停图片，按下播放键，则发送暂停媒体命令，图片显示播放图片。以此类推。
         if (PlayerManagerReceiver.status == Constant.STATUS_PAUSE) {
             Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
-            intent.putExtra(Constant.COMMAND,Constant.COMMAND_PLAY);
+            intent.putExtra(Constant.COMMAND, Constant.COMMAND_PLAY);
             sendBroadcast(intent);
-        }else if (PlayerManagerReceiver.status == Constant.STATUS_PLAY) {
+        } else if (PlayerManagerReceiver.status == Constant.STATUS_PLAY) {
             Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
             intent.putExtra(Constant.COMMAND, Constant.COMMAND_PAUSE);
             sendBroadcast(intent);
-        }else {
+        } else {
             //为停止状态时发送播放命令，并发送将要播放歌曲的路径
             String path = dbManager.getMusicPath(musicId);
             Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
             intent.putExtra(Constant.COMMAND, Constant.COMMAND_PLAY);
             intent.putExtra(Constant.KEY_PATH, path);
-            Log.i(TAG, "onClick: path = "+path);
+            Log.i(TAG, "onClick: path = " + path);
             sendBroadcast(intent);
         }
+    }
+
+    public void showPopFormBottom() {
+        PlayingPopWindow playingPopWindow = new PlayingPopWindow(PlayActivity.this);
+        playingPopWindow.showAtLocation(findViewById(R.id.activity_play), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.alpha=0.7f;
+        getWindow().setAttributes(params);
+
+        playingPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams params = getWindow().getAttributes();
+                params.alpha=1f;
+                getWindow().setAttributes(params);
+            }
+        });
+
     }
 
     @Override
@@ -248,7 +276,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     class PlayReceiver extends BroadcastReceiver {
 
         int status;
@@ -256,10 +283,11 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "onReceive: ");
-            status = intent.getIntExtra(Constant.STATUS,0);
-            current = intent.getIntExtra(Constant.KEY_CURRENT,0);
-            duration = intent.getIntExtra(Constant.KEY_DURATION,100);
-            switch (status){
+            initTitle();
+            status = intent.getIntExtra(Constant.STATUS, 0);
+            current = intent.getIntExtra(Constant.KEY_CURRENT, 0);
+            duration = intent.getIntExtra(Constant.KEY_DURATION, 100);
+            switch (status) {
                 case Constant.STATUS_STOP:
                     playIv.setSelected(false);
                     break;
@@ -270,6 +298,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     playIv.setSelected(false);
                     break;
                 case Constant.STATUS_RUN:
+                    playIv.setSelected(true);
                     seekBar.setMax(duration);
                     seekBar.setProgress(current);
                     break;
@@ -277,6 +306,16 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                     break;
             }
 
+        }
+    }
+
+    private void setStyle() {
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
 }

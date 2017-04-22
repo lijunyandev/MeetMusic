@@ -71,4 +71,12 @@ public class FolderFragment extends Fragment {
         });
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        folderInfoList.clear();
+        folderInfoList.addAll(dbManager.getFolderList());
+        adapter.notifyDataSetChanged();
+    }
 }

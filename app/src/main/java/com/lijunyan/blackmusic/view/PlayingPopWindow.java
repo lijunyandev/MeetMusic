@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -33,9 +32,9 @@ public class PlayingPopWindow extends PopupWindow{
     private static final String TAG = PlayingPopWindow.class.getName();
     private View view;
     private Activity activity;
-    private ImageView playModeIv;
+//    private ImageView playModeIv;
     private TextView countTv;
-    private TextView deleteTv;
+//    private TextView playModeTv;
     private TextView closeTv;
     private RecyclerView recyclerView;
     private Adapter adapter;
@@ -88,17 +87,21 @@ public class PlayingPopWindow extends PopupWindow{
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
 
-        playModeIv = (ImageView)view.findViewById(R.id.playing_list_playmode_iv);
-        deleteTv = (TextView) view.findViewById(R.id.playing_list_delete_tv);
+//        playModeIv = (ImageView)view.findViewById(R.id.playing_list_playmode_iv);
+//        playModeTv = (TextView) view.findViewById(R.id.playing_list_playmode_Tv);
         closeTv = (TextView) view.findViewById(R.id.playing_list_close_tv);
         countTv = (TextView)view.findViewById(R.id.playing_list_count_tv);
         countTv.setText("("+musicInfoList.size()+")");
 
-        deleteTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+//        initPlayMode();
+
+//        playModeIv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                switchPlayMode();
+//            }
+//        });
+
         closeTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,19 +110,46 @@ public class PlayingPopWindow extends PopupWindow{
         });
 
     }
-//String a;
-//    String b;
-//
-//
-//    public boolean isEat(){
-//        boolean result = false;
-//        for(){
-//            if (a.equals(b)){
-//                result = true;
-//            }
+
+
+//    private void initPlayMode() {
+//        int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
+//        if (playMode == -1) {
+//            playMode = 0;
 //        }
-//        return result;
+//        playModeIv.setImageLevel(playMode);
+//        switch (playMode){
+//            case Constant.PLAYMODE_SEQUENCE:
+//                playModeTv.setText(Constant.PLAYMODE_SEQUENCE_TEXT);
+//                break;
+//            case Constant.PLAYMODE_RANDOM:
+//                playModeTv.setText(Constant.PLAYMODE_RANDOM_TEXT);
+//                break;
+//            case Constant.PLAYMODE_SINGLE_REPEAT:
+//                playModeTv.setText(Constant.PLAYMODE_SINGLE_REPEAT_TEXT);
+//                break;
+//        }
 //    }
+
+//    private void switchPlayMode() {
+//        int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
+//        switch (playMode){
+//            case Constant.PLAYMODE_SEQUENCE:
+//                playModeTv.setText(Constant.PLAYMODE_RANDOM_TEXT);
+//                MyMusicUtil.setShared(Constant.KEY_MODE,Constant.PLAYMODE_RANDOM);
+//                break;
+//            case Constant.PLAYMODE_RANDOM:
+//                playModeTv.setText(Constant.PLAYMODE_SINGLE_REPEAT_TEXT);
+//                MyMusicUtil.setShared(Constant.KEY_MODE,Constant.PLAYMODE_SINGLE_REPEAT);
+//                break;
+//            case Constant.PLAYMODE_SINGLE_REPEAT:
+//                playModeTv.setText(Constant.PLAYMODE_SEQUENCE_TEXT);
+//                MyMusicUtil.setShared(Constant.KEY_MODE,Constant.PLAYMODE_SEQUENCE);
+//                break;
+//        }
+//        initPlayMode();
+//    }
+
 
     private class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 

@@ -63,6 +63,11 @@ public class PlaylistActivity extends BaseActivity {
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void initView(){
         recyclerView = (RecyclerView)findViewById(R.id.activity_playlist_rv);
         playlistAdapter = new PlaylistAdapter(this,playListInfo,musicInfoList);

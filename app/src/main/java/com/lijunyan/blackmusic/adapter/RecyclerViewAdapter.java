@@ -141,14 +141,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 intent.putExtra(Constant.KEY_PATH, path);
                 context.sendBroadcast(intent);
                 MyMusicUtil.setShared(Constant.KEY_ID,musicInfo.getId());
-                MyMusicUtil.setShared(Constant.KEY_LIST,Constant.LIST_ALLMUSIC);
                 notifyDataSetChanged();
+                if (onItemClickListener != null)
+                    onItemClickListener.onContentClick(position);
             }
         });
 
         holder.menuIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (onItemClickListener != null)
                 onItemClickListener.onOpenMenuClick(position);
             }
         });
@@ -156,6 +158,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (onItemClickListener != null)
                 onItemClickListener.onDeleteMenuClick(holder.swipeContent,holder.getAdapterPosition());
             }
         });
@@ -170,6 +173,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public interface OnItemClickListener{
         void onOpenMenuClick(int position);
         void onDeleteMenuClick(View content,int position);
+        void onContentClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){

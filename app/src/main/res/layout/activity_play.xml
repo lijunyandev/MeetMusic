@@ -4,6 +4,7 @@
     android:id="@+id/activity_play"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@drawable/bg_play"
     tools:activity="com.lijunyan.blackmusic.activity.PlayActivity">
 
@@ -13,6 +14,7 @@
         <!--android:layout_height="match_parent"-->
         <!--android:clickable="true"-->
         <!--android:scaleType="centerCrop"-->
+        <!--android:fitsSystemWindows="true"-->
         <!--android:src="@drawable/bg_play" />-->
 
     <LinearLayout
@@ -65,12 +67,12 @@
                 android:text="歌手"
                 android:textColor="@color/grey50"
                 android:textSize="16sp" />
-            <ImageView
-                android:id="@+id/iv_disc_rotate"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="30dp"
-                android:src="@drawable/playlist"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_disc_rotate"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:padding="30dp"-->
+                <!--android:src="@drawable/playlist"/>-->
         </LinearLayout>
 
         <LinearLayout
@@ -110,7 +112,7 @@
                     android:id="@+id/tv_total_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00:00:00"
+                    android:text="00:00"
                     android:textColor="@android:color/white"
                     android:textSize="10sp" />
             </LinearLayout>
@@ -118,28 +120,21 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_mode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/play_mode_level_list" />
-
-                <ImageView
-                    android:id="@+id/iv_prev"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/iv_play"
-                    android:src="@drawable/selector_play_btn_prev" />
-
                 <ImageView
                     android:id="@+id/iv_play"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:src="@drawable/selector_play_btn_play_pause" />
+
+                <ImageView
+                    android:id="@+id/iv_prev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/iv_play"
+                    android:src="@drawable/selector_play_btn_prev" />
+
 
                 <ImageView
                     android:id="@+id/iv_next"
@@ -151,12 +146,24 @@
 
                 <ImageView
                     android:id="@+id/iv_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="16dp"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/menu"
-                    android:visibility="gone" />
+                    android:padding="10dp"
+                    android:src="@drawable/selector_menu"/>
+
+                <ImageView
+                    android:id="@+id/iv_mode"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/play_mode_level_list"
+                    android:padding="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

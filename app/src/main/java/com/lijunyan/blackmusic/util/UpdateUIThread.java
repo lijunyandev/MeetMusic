@@ -26,35 +26,37 @@ public class UpdateUIThread extends Thread {
 
 	@Override
 	public void run() {
-		while (playerManagerReceiver.getThreadNumber() == this.threadNumber) {
-			if (playerManagerReceiver.status == Constant.STATUS_STOP) {
-				Log.e(TAG, "run: Constant.STATUS_STOP");
-				break;
-			}
-			if (playerManagerReceiver.status == Constant.STATUS_PLAY ||
-					playerManagerReceiver.status == Constant.STATUS_PAUSE) {
-				if (!playerManagerReceiver.getMediaPlayer().isPlaying()) {
-					Log.i(TAG, "run: getMediaPlayer().isPlaying() = "+playerManagerReceiver.getMediaPlayer().isPlaying());
+		try {
+			while (playerManagerReceiver.getThreadNumber() == this.threadNumber) {
+				if (playerManagerReceiver.status == Constant.STATUS_STOP) {
+					Log.e(TAG, "run: Constant.STATUS_STOP");
 					break;
 				}
-				duration = playerManagerReceiver.getMediaPlayer().getDuration();
-				curPosition = playerManagerReceiver.getMediaPlayer().getCurrentPosition();
+				if (playerManagerReceiver.status == Constant.STATUS_PLAY ||
+						playerManagerReceiver.status == Constant.STATUS_PAUSE) {
+					if (!playerManagerReceiver.getMediaPlayer().isPlaying()) {
+						Log.i(TAG, "run: getMediaPlayer().isPlaying() = " + playerManagerReceiver.getMediaPlayer().isPlaying());
+						break;
+					}
+					duration = playerManagerReceiver.getMediaPlayer().getDuration();
+					curPosition = playerManagerReceiver.getMediaPlayer().getCurrentPosition();
 //				Log.d(TAG, "duration = "+duration);
 //				Log.d(TAG, "current = "+curPosition);
-				Intent intent = new Intent(PlayBarFragment.ACTION_UPDATE_UI_PlayBar);
-				intent.putExtra(Constant.STATUS, Constant.STATUS_RUN);
+					Intent intent = new Intent(PlayBarFragment.ACTION_UPDATE_UI_PlayBar);
+					intent.putExtra(Constant.STATUS, Constant.STATUS_RUN);
 //				intent.putExtra("status2", playerManagerReceiver.status);
-				intent.putExtra(Constant.KEY_DURATION, duration);
-				intent.putExtra(Constant.KEY_CURRENT, curPosition);
-				context.sendBroadcast(intent);
-
+					intent.putExtra(Constant.KEY_DURATION, duration);
+					intent.putExtra(Constant.KEY_CURRENT, curPosition);
+					context.sendBroadcast(intent);
+				}
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-				
+		}catch (Exception e){
+			e.printStackTrace();
 		}
 		
 	}

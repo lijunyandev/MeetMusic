@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:padding="12dp"
-            android:src="@drawable/sequence"/>
+            android:src="@drawable/play_mode_level_list"/>
         <TextView
             android:id="@+id/model_music_playmode_tv"
             android:layout_width="wrap_content"
@@ -45,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
+        android:layout_above="@id/fragment_playbar"
         android:layout_below="@id/model_music_playmode_rl"/>
     <com.lijunyan.blackmusic.view.SideBar
         android:id="@+id/model_music_siderbar"

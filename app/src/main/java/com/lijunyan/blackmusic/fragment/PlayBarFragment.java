@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
@@ -39,10 +39,10 @@ public class PlayBarFragment extends Fragment {
     private static final String TAG = "PlayBarFragment";
     public static final String ACTION_UPDATE_UI_PlayBar = "com.lijunyan.blackmusic.fragment.PlayBarFragment:action_update_ui_broad_cast";
     private LinearLayout playBarLl;
-    private Button playBtn;
+    private ImageView playIv;
     private SeekBar seekBar;
-    private Button nextBtn;
-    private Button menuBtn;
+    private ImageView nextIv;
+    private ImageView menuIv;
     private TextView musicNameTv;
     private TextView singerNameTv;
     private TextView defaultNameTv;
@@ -68,9 +68,9 @@ public class PlayBarFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_playbar,container,false);
         playBarLl = (LinearLayout) view.findViewById(R.id.home_activity_playbar_ll);
         seekBar = (SeekBar) view.findViewById(R.id.home_seekbar);
-        playBtn = (Button)view.findViewById(R.id.play_btn);
-        menuBtn = (Button)view.findViewById(R.id.play_menu_btn);
-        nextBtn = (Button)view.findViewById(R.id.next_btn);
+        playIv = (ImageView)view.findViewById(R.id.play_iv);
+        menuIv = (ImageView)view.findViewById(R.id.play_menu_iv);
+        nextIv = (ImageView)view.findViewById(R.id.next_iv);
         musicNameTv = (TextView) view.findViewById(R.id.home_music_name_tv);
         singerNameTv = (TextView) view.findViewById(R.id.home_singer_name_tv);
 
@@ -83,7 +83,7 @@ public class PlayBarFragment extends Fragment {
             }
         });
 
-        playBtn.setOnClickListener(new View.OnClickListener() {
+        playIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int musicId = MyMusicUtil.getIntShared(Constant.KEY_ID);
@@ -115,7 +115,7 @@ public class PlayBarFragment extends Fragment {
             }
         });
 
-        nextBtn.setOnClickListener(new View.OnClickListener() {
+        nextIv.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -123,7 +123,7 @@ public class PlayBarFragment extends Fragment {
             }
         });
 
-        menuBtn.setOnClickListener(new View.OnClickListener() {
+        menuIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPopFormBottom();
@@ -194,7 +194,7 @@ public class PlayBarFragment extends Fragment {
     private void setMusicName(){
         int musicId = MyMusicUtil.getIntShared(Constant.KEY_ID);
         if (musicId == -1){
-            musicNameTv.setText("音乐盒");
+            musicNameTv.setText("听听音乐");
             singerNameTv.setText("好音质");
         }else{
             musicNameTv.setText(dbManager.getMusicInfo(musicId).get(1));
@@ -217,14 +217,14 @@ public class PlayBarFragment extends Fragment {
             duration = intent.getIntExtra(Constant.KEY_DURATION,100);
             switch (status){
                 case Constant.STATUS_STOP:
-                    playBtn.setBackgroundResource(R.drawable.play);
+                    playIv.setSelected(false);
                     seekBar.setProgress(0);
                     break;
                 case Constant.STATUS_PLAY:
-                    playBtn.setBackgroundResource(R.drawable.pause);
+                    playIv.setSelected(true);
                     break;
                 case Constant.STATUS_PAUSE:
-                    playBtn.setBackgroundResource(R.drawable.play);
+                    playIv.setSelected(false);
                     break;
                 case Constant.STATUS_RUN:
                     seekBar.setMax(duration);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/play_mode_singel_cycle_pressed" android:state_pressed="true" />
-    <item android:drawable="@drawable/play_mode_singel_cycle" />
+    <item android:drawable="@drawable/single_cycle_press" android:state_pressed="true" />
+    <item android:drawable="@drawable/single_cycle" />
 </selector>

@@ -52,7 +52,7 @@
             android:name=".activity.PlayActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/PlaylistActivityTheme"/>
+            android:theme="@style/PlaylistActivityTheme" />
         <activity
             android:name=".activity.LastMyloveActivity"
             android:label="@string/last_play"
@@ -60,11 +60,11 @@
         <activity
             android:name=".activity.PlaylistActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/PlaylistActivityTheme"/>
+            android:theme="@style/PlaylistActivityTheme" />
         <activity
             android:name=".activity.BaseActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ModelActivity"></activity>
+        <activity android:name=".activity.ModelActivity" />
     </application>
 
 </manifest>

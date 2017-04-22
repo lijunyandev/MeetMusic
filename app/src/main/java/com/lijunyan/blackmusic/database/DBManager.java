@@ -13,6 +13,7 @@ import com.lijunyan.blackmusic.entity.PlayListInfo;
 import com.lijunyan.blackmusic.entity.SingerInfo;
 import com.lijunyan.blackmusic.util.ChineseToEnglish;
 import com.lijunyan.blackmusic.util.Constant;
+import com.lijunyan.blackmusic.util.MyMusicUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -446,6 +447,15 @@ public class DBManager {
         values.put(DatabaseHelper.MUSIC_ID_COLUMN,musicId);
         db.insert(DatabaseHelper.PLAY_LISY_MUSIC_TABLE,null,values);
     }
+
+    //检索音乐是否已经存在歌单中
+    public boolean isExistPlaylist(int playlistId,int musicId){
+
+        Cursor cursor = db.query(DatabaseHelper.PLAY_LISY_MUSIC_TABLE,null,ID_COLUMN + " = ? and "+ MUSIC_ID_COLUMN + " = ? ",
+                new String[]{""+playlistId,""+musicId},null,null,null);
+        return  cursor.moveToFirst();
+    }
+
     public void updateAllMusic(List<MusicInfo> musicInfoList) {
         db.beginTransaction();
         try {
@@ -462,11 +472,16 @@ public class DBManager {
 
     //删除数据库中所有的表
     public void deleteAllTable() {
+        db.execSQL("PRAGMA foreign_keys=ON");
         db.delete(DatabaseHelper.MUSIC_TABLE, null, null);
+        db.delete(DatabaseHelper.LAST_PLAY_TABLE, null, null);
+        db.delete(DatabaseHelper.PLAY_LIST_TABLE, null, null);
+        db.delete(DatabaseHelper.PLAY_LISY_MUSIC_TABLE, null, null);
     }
 
     //删除指定音乐
     public void deleteMusic(int id) {
+        db.execSQL("PRAGMA foreign_keys=ON");
         db.delete(DatabaseHelper.MUSIC_TABLE, ID_COLUMN + " = ? ", new String[]{"" + id});
         db.delete(DatabaseHelper.LAST_PLAY_TABLE, ID_COLUMN + " = ? ", new String[]{"" + id});
     }
@@ -477,6 +492,7 @@ public class DBManager {
 
     //根据从哪个activity中发出的移除歌曲指令判断
     public void removeMusic(int id, int witchActivity) {
+        db.execSQL("PRAGMA foreign_keys=ON");
         switch (witchActivity) {
             case Constant.ACTIVITY_LOCAL:
                 db.delete(DatabaseHelper.MUSIC_TABLE, ID_COLUMN + " = ? ", new String[]{"" + id});
@@ -494,6 +510,7 @@ public class DBManager {
 
     //根据从哪个activity中发出的移除歌曲指令判断
     public int removeMusicFromPlaylist(int musicId, int playlistId) {
+        db.execSQL("PRAGMA foreign_keys=ON");
         int ret = 0;
         try {
             ret = db.delete(DatabaseHelper.PLAY_LISY_MUSIC_TABLE, ID_COLUMN + " = ? and " + DatabaseHelper.MUSIC_ID_COLUMN
@@ -600,7 +617,7 @@ public class DBManager {
         switch (playMode) {
             case Constant.PLAYMODE_SEQUENCE:
                 if (index == 0) {
-                    id = musicList.get(musicList.size());
+                    id = musicList.get(musicList.size() - 1);
                 } else {
                     --index;
                     id = musicList.get(index);
@@ -630,13 +647,19 @@ public class DBManager {
             case Constant.LIST_MYLOVE:
                 cursor = db.query(DatabaseHelper.MUSIC_TABLE, null, DatabaseHelper.LOVE_COLUMN + " = ?", new String[]{"" + 1}, null, null, null);
                 break;
+            case Constant.LIST_PLAYLIST:
+                int listId = MyMusicUtil.getIntShared(Constant.KEY_LIST_ID);
+                list = getMusicIdListByPlaylist(listId);
+                break;
             default:
                 Log.e(TAG, "getMusicList default");
                 break;
         }
-        while (cursor.moveToNext()) {
-            musicId = cursor.getInt(cursor.getColumnIndex("id"));
-            list.add(musicId);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                musicId = cursor.getInt(cursor.getColumnIndex("id"));
+                list.add(musicId);
+            }
         }
         if (cursor != null) {
             cursor.close();
@@ -658,7 +681,7 @@ public class DBManager {
             }
         } else {
             musicInfo.add("0");
-            musicInfo.add("音乐盒");
+            musicInfo.add("听听音乐");
             musicInfo.add("好音质");
             musicInfo.add("0");
             musicInfo.add("0");
@@ -686,7 +709,7 @@ public class DBManager {
         }
         do {
             int count = (int) (Math.random() * list.size());
-            musicId = count;
+            musicId = list.get(count);
         } while (musicId == id);
 
         return musicId;
@@ -703,6 +726,7 @@ public class DBManager {
         ArrayList<Integer> lastList = new ArrayList<Integer>();
         Cursor cursor = null;
         lastList.add(id);
+        db.beginTransaction();
         try {
             cursor = db.rawQuery("select id from " + DatabaseHelper.LAST_PLAY_TABLE, null);
             while (cursor.moveToNext()) {
@@ -722,9 +746,11 @@ public class DBManager {
                     db.insert(DatabaseHelper.LAST_PLAY_TABLE, null, values);
                 }
             }
+            db.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            db.endTransaction();
             if (cursor != null) {
                 cursor.close();
             }

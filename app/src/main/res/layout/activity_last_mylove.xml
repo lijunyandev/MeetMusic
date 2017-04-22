@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:padding="12dp"
-            android:src="@drawable/sequence"/>
+            android:src="@drawable/play_mode_level_list"/>
         <TextView
             android:id="@+id/last_mylove_playmode_tv"
             android:layout_width="wrap_content"
@@ -47,6 +47,15 @@
         android:scrollbars="vertical"
         android:layout_below="@id/last_mylove_playmode_rl"
         android:layout_above="@id/fragment_playbar"/>
+    <com.lijunyan.blackmusic.view.SideBar
+        android:id="@+id/last_mylove_music_siderbar"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_above="@id/fragment_playbar"
+        android:layout_below="@id/last_mylove_playmode_rl"/>
     <FrameLayout
         android:id="@+id/fragment_playbar"
         android:layout_width="match_parent"

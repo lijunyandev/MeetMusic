@@ -19,6 +19,7 @@
         <item name="android:listDivider">@drawable/divider_bg</item>
         <item name="android:windowAnimationStyle">@style/noAnimation</item>
         <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowSoftInputMode">adjustResize|stateHidden</item>
     </style>
 
     <style name="noAnimation">

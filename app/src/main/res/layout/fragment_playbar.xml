@@ -72,25 +72,29 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <Button
-                    android:id="@+id/play_btn"
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-                    android:background="@drawable/play" />
+                <ImageView
+                    android:id="@+id/play_iv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="8dp"
+                    android:clickable="true"
+                    android:src="@drawable/selector_play_pause_bar" />
 
-                <Button
-                    android:id="@+id/next_btn"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/next_play" />
+                <ImageView
+                    android:id="@+id/next_iv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:clickable="true"
+                    android:src="@drawable/selector_next_play_bar" />
 
-                <Button
-                    android:id="@+id/play_menu_btn"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/menu" />
+                <ImageView
+                    android:id="@+id/play_menu_iv"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:padding="10dp"
+                    android:clickable="true"
+                    android:src="@drawable/selector_menu" />
             </LinearLayout>
         </LinearLayout>
         <SeekBar

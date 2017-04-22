@@ -14,8 +14,11 @@
         android:layout_height="0.5dp"
         android:background="@color/colorDivider"></View>
     <LinearLayout
+        android:id="@+id/pop_add_playlist_ll"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@drawable/selector_layout"
+        android:clickable="true">
 
         <ImageView
             android:layout_width="50dp"

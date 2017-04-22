@@ -85,13 +85,13 @@
 
                     <ImageView
                         android:id="@+id/local_music_item_never_menu"
-                        android:layout_width="20dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="20dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_weight="0"
+                        android:layout_marginRight="10dp"
+                        android:padding="15dp"
                         android:clickable="true"
-                        android:src="@drawable/never_menu" />
+                        android:src="@drawable/selector_never_menu" />
                 </LinearLayout>
 
                 <View

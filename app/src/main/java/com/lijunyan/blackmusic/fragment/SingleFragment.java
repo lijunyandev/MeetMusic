@@ -69,15 +69,15 @@ public class SingleFragment extends Fragment {
         if (activity == null){
             Log.e(TAG, "SingleFragment: activity == null");
         }
-        dbManager = DBManager.getInstance(activity);
-        musicInfoList = dbManager.getAllMusicFromMusicTable();
-        Collections.sort(musicInfoList);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+        dbManager = DBManager.getInstance(context);
+        musicInfoList = dbManager.getAllMusicFromMusicTable();
+        Collections.sort(musicInfoList);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class SingleFragment extends Fragment {
 //                    //移除的是当前播放的音乐
 //                    Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
 //                    intent.putExtra(Constant.COMMAND, Constant.COMMAND_STOP);
-//                    activity.sendBroadcast(intent);
+//                    context.sendBroadcast(intent);
 //                }
 //                recyclerViewAdapter.notifyItemRemoved(position);//推荐用这个
 //                updateView();
@@ -127,6 +127,10 @@ public class SingleFragment extends Fragment {
 //                ((SwipeMenuLayout) swipeView).quickClose();
             }
 
+            @Override
+            public void onContentClick(int position) {
+                MyMusicUtil.setShared(Constant.KEY_LIST,Constant.LIST_ALLMUSIC);
+            }
         });
 
         // 当点击外部空白处时，关闭正在展开的侧滑菜单
@@ -156,24 +160,19 @@ public class SingleFragment extends Fragment {
                 int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
                 switch (playMode){
                     case Constant.PLAYMODE_SEQUENCE:
-                        playModeIv.setImageResource(R.drawable.random);
                         playModeTv.setText(Constant.PLAYMODE_RANDOM_TEXT);
                         MyMusicUtil.setShared(Constant.KEY_MODE,Constant.PLAYMODE_RANDOM);
                         break;
                     case Constant.PLAYMODE_RANDOM:
-                        playModeIv.setImageResource(R.drawable.single_cycle);
                         playModeTv.setText(Constant.PLAYMODE_SINGLE_REPEAT_TEXT);
                         MyMusicUtil.setShared(Constant.KEY_MODE,Constant.PLAYMODE_SINGLE_REPEAT);
                         break;
                     case Constant.PLAYMODE_SINGLE_REPEAT:
-                        playModeIv.setImageResource(R.drawable.sequence);
                         playModeTv.setText(Constant.PLAYMODE_SEQUENCE_TEXT);
                         MyMusicUtil.setShared(Constant.KEY_MODE,Constant.PLAYMODE_SEQUENCE);
                         break;
-                    default:
-                        Log.e(TAG, "onClick: play mode default");
-                        break;
                 }
+                initPlayMode();
             }
         });
         sideBarPreTv = (TextView) view.findViewById(R.id.local_music_siderbar_pre_tv);
@@ -197,21 +196,24 @@ public class SingleFragment extends Fragment {
         int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
         switch (playMode){
             case Constant.PLAYMODE_SEQUENCE:
-                playModeIv.setImageResource(R.drawable.sequence);
                 playModeTv.setText(Constant.PLAYMODE_SEQUENCE_TEXT);
                 break;
             case Constant.PLAYMODE_RANDOM:
-                playModeIv.setImageResource(R.drawable.random);
                 playModeTv.setText(Constant.PLAYMODE_RANDOM_TEXT);
                 break;
             case Constant.PLAYMODE_SINGLE_REPEAT:
-                playModeIv.setImageResource(R.drawable.single_cycle);
                 playModeTv.setText(Constant.PLAYMODE_SINGLE_REPEAT_TEXT);
                 break;
-            default:
-                Log.e(TAG, "onClick: play mode default");
-                break;
         }
+        initPlayMode();
+    }
+
+    private void initPlayMode() {
+        int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
+        if (playMode == -1) {
+            playMode = 0;
+        }
+        playModeIv.setImageLevel(playMode);
     }
 
     public void updateView(){
@@ -228,6 +230,7 @@ public class SingleFragment extends Fragment {
             playModeRl.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+        initDefaultPlayModeView();
     }
 
     public void showPopFormBottom(MusicInfo musicInfo) {
@@ -313,7 +316,7 @@ public class SingleFragment extends Fragment {
                 //移除的是当前播放的音乐
                 Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
                 intent.putExtra(Constant.COMMAND, Constant.COMMAND_STOP);
-                activity.sendBroadcast(intent);
+                context.sendBroadcast(intent);
             }
             recyclerViewAdapter.notifyItemRemoved(position);//推荐用这个
             updateView();
@@ -371,8 +374,5 @@ public class SingleFragment extends Fragment {
             recyclerViewAdapter.notifyDataSetChanged();
         }
     }
-
-
-
 
 }

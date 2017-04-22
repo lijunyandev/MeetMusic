@@ -82,6 +82,11 @@ public class ModelActivity extends BaseActivity {
         updateView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initDefaultPlayModeView();
+    }
 
     private void init() {
         recyclerView = (RecyclerView) findViewById(R.id.model_recycler_view);
@@ -162,24 +167,19 @@ public class ModelActivity extends BaseActivity {
                 int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
                 switch (playMode) {
                     case Constant.PLAYMODE_SEQUENCE:
-                        playModeIv.setImageResource(R.drawable.random);
                         playModeTv.setText(Constant.PLAYMODE_RANDOM_TEXT);
                         MyMusicUtil.setShared(Constant.KEY_MODE, Constant.PLAYMODE_RANDOM);
                         break;
                     case Constant.PLAYMODE_RANDOM:
-                        playModeIv.setImageResource(R.drawable.single_cycle);
                         playModeTv.setText(Constant.PLAYMODE_SINGLE_REPEAT_TEXT);
                         MyMusicUtil.setShared(Constant.KEY_MODE, Constant.PLAYMODE_SINGLE_REPEAT);
                         break;
                     case Constant.PLAYMODE_SINGLE_REPEAT:
-                        playModeIv.setImageResource(R.drawable.sequence);
                         playModeTv.setText(Constant.PLAYMODE_SEQUENCE_TEXT);
                         MyMusicUtil.setShared(Constant.KEY_MODE, Constant.PLAYMODE_SEQUENCE);
                         break;
-                    default:
-                        Log.e(TAG, "onClick: play mode default");
-                        break;
                 }
+                initPlayMode();
             }
         });
     }
@@ -188,24 +188,28 @@ public class ModelActivity extends BaseActivity {
         int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
         switch (playMode) {
             case Constant.PLAYMODE_SEQUENCE:
-                playModeIv.setImageResource(R.drawable.sequence);
                 playModeTv.setText(Constant.PLAYMODE_SEQUENCE_TEXT);
                 break;
             case Constant.PLAYMODE_RANDOM:
-                playModeIv.setImageResource(R.drawable.random);
                 playModeTv.setText(Constant.PLAYMODE_RANDOM_TEXT);
                 break;
             case Constant.PLAYMODE_SINGLE_REPEAT:
-                playModeIv.setImageResource(R.drawable.single_cycle);
                 playModeTv.setText(Constant.PLAYMODE_SINGLE_REPEAT_TEXT);
                 break;
-            default:
-                Log.e(TAG, "onClick: play mode default");
-                break;
         }
+        initPlayMode();
+    }
+
+    private void initPlayMode() {
+        int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
+        if (playMode == -1) {
+            playMode = 0;
+        }
+        playModeIv.setImageLevel(playMode);
     }
 
     public void updateView() {
+        musicInfoList.clear();
         if (type.equals(SINGER_TYPE)) {
             musicInfoList.addAll(dbManager.getMusicListBySinger(title));
         } else if (type.equals(ALBUM_TYPE)) {

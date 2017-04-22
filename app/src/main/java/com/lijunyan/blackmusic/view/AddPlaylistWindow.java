@@ -1,12 +1,15 @@
 package com.lijunyan.blackmusic.view;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Point;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +36,7 @@ public class AddPlaylistWindow extends PopupWindow {
     private View view;
     private Activity activity;
     private MusicInfo musicInfo;
+    private LinearLayout addLl;
     private ListView listView;
     private Adapter adapter;
     private List<PlayListInfo> dataList;
@@ -87,8 +91,36 @@ public class AddPlaylistWindow extends PopupWindow {
         listView = (ListView)view.findViewById(R.id.pop_add_pl_lv);
         adapter = new Adapter();
         listView.setAdapter(adapter);
-        
-        
+
+        addLl = (LinearLayout)view.findViewById(R.id.pop_add_playlist_ll);
+        addLl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //添加歌单
+                final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                View view = LayoutInflater.from(activity).inflate(R.layout.dialog_create_playlist,null);
+                final EditText playlistEt = (EditText)view.findViewById(R.id.dialog_playlist_name_et);
+                builder.setView(view);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = playlistEt.getText().toString();
+                        dbManager.createPlaylist(name);
+                        dialog.dismiss();
+                        adapter.updateDataList();
+                    }
+                });
+
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.show();//配置好后再builder show
+            }
+        });
     }
 
     private class Adapter extends BaseAdapter {
@@ -138,9 +170,12 @@ public class AddPlaylistWindow extends PopupWindow {
             holder.contentLl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    dbManager.addToPlaylist(playListInfo.getId(),musicInfo.getId());
-                    Toast.makeText(activity,"添加到歌单成功",Toast.LENGTH_SHORT).show();
+                    if(dbManager.isExistPlaylist(playListInfo.getId(),musicInfo.getId())){
+                        Toast.makeText(activity,"该歌单已存在该歌曲",Toast.LENGTH_SHORT).show();
+                    }else {
+                        dbManager.addToPlaylist(playListInfo.getId(),musicInfo.getId());
+                        Toast.makeText(activity,"添加到歌单成功",Toast.LENGTH_SHORT).show();
+                    }
                     dismiss();
 //                if (dataList.size() == 0){
 //                    //添加歌单

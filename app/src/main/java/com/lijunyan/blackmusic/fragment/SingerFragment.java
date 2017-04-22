@@ -47,9 +47,9 @@ public class SingerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        dbManager = DBManager.getInstance(getContext());
-//        singerInfoList = dbManager.getSingerList();
-//        Log.e(TAG, "SingerFragment: singerInfoList.size() ="+ singerInfoList.size());
+        singerInfoList.clear();
+        singerInfoList.addAll(dbManager.getSingerList());
+        adapter.notifyDataSetChanged();
     }
 
     @Override

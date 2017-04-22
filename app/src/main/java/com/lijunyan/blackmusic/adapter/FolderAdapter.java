@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,7 +40,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
         ImageView folderIv;
         TextView folderName;
         TextView count;
-        Button deleteBtn;
+//        Button deleteBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -50,7 +49,7 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             this.folderIv = (ImageView) itemView.findViewById(R.id.model_head_iv);
             this.folderName = (TextView) itemView.findViewById(R.id.model_item_name);
             this.count = (TextView) itemView.findViewById(R.id.model_music_count);
-            this.deleteBtn = (Button) itemView.findViewById(R.id.model_swip_delete_menu_btn);
+//            this.deleteBtn = (Button) itemView.findViewById(R.id.model_swip_delete_menu_btn);
         }
 
     }
@@ -76,12 +75,12 @@ public class FolderAdapter extends RecyclerView.Adapter<FolderAdapter.ViewHolder
             }
         });
 
-        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onItemClickListener.onDeleteMenuClick(holder.swipeContent, position);
-            }
-        });
+//        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onItemClickListener.onDeleteMenuClick(holder.swipeContent, position);
+//            }
+//        });
     }
 
     @Override
