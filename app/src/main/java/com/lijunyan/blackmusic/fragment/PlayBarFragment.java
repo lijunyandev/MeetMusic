@@ -227,6 +227,7 @@ public class PlayBarFragment extends Fragment {
                     playIv.setSelected(false);
                     break;
                 case Constant.STATUS_RUN:
+                    playIv.setSelected(true);
                     seekBar.setMax(duration);
                     seekBar.setProgress(current);
                     break;

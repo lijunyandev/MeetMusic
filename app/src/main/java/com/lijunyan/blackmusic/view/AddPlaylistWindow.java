@@ -155,6 +155,7 @@ public class AddPlaylistWindow extends PopupWindow {
             } else {
                 holder = (Holder) convertView.getTag();
             }
+            holder.swipView.setEnabled(false);
 
 //        if (dataList.size() == 0){
 //            //展现默认的新建歌单列表
