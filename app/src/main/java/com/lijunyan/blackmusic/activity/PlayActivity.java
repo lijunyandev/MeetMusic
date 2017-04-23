@@ -90,6 +90,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 
         initPlayMode();
         initTitle();
+        initPlayIv();
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -151,6 +152,24 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    private void initPlayIv(){
+        int status = PlayerManagerReceiver.status;
+        switch (status) {
+            case Constant.STATUS_STOP:
+                playIv.setSelected(false);
+                break;
+            case Constant.STATUS_PLAY:
+                playIv.setSelected(true);
+                break;
+            case Constant.STATUS_PAUSE:
+                playIv.setSelected(false);
+                break;
+            case Constant.STATUS_RUN:
+                playIv.setSelected(true);
+                break;
+        }
+    }
+
     private void initPlayMode() {
         int playMode = MyMusicUtil.getIntShared(Constant.KEY_MODE);
         if (playMode == -1) {
@@ -210,7 +229,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     private void play() {
         int musicId;
         musicId = MyMusicUtil.getIntShared(Constant.KEY_ID);
-        if (musicId == -1) {
+        if (musicId == -1 || musicId == 0) {
             musicId = dbManager.getFirstId(Constant.LIST_ALLMUSIC);
             Intent intent = new Intent(Constant.MP_FILTER);
             intent.putExtra(Constant.COMMAND, Constant.COMMAND_STOP);

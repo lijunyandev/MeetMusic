@@ -30,6 +30,8 @@ import com.lijunyan.blackmusic.util.Constant;
 import com.lijunyan.blackmusic.util.MyMusicUtil;
 import com.lijunyan.blackmusic.view.PlayingPopWindow;
 
+import static com.lijunyan.blackmusic.receiver.PlayerManagerReceiver.status;
+
 /**
  * Created by lijunyan on 2017/3/12.
  */
@@ -75,6 +77,7 @@ public class PlayBarFragment extends Fragment {
         singerNameTv = (TextView) view.findViewById(R.id.home_singer_name_tv);
 
         setMusicName();
+        initPlayIv();
         playBarLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +90,7 @@ public class PlayBarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int musicId = MyMusicUtil.getIntShared(Constant.KEY_ID);
-                if (musicId == -1) {
+                if (musicId == -1 || musicId == 0) {
                     Intent intent = new Intent(Constant.MP_FILTER);
                     intent.putExtra(Constant.COMMAND, Constant.COMMAND_STOP);
                     getActivity().sendBroadcast(intent);
@@ -95,11 +98,11 @@ public class PlayBarFragment extends Fragment {
                     return;
                 }
                 //如果当前媒体在播放音乐状态，则图片显示暂停图片，按下播放键，则发送暂停媒体命令，图片显示播放图片。以此类推。
-                if (PlayerManagerReceiver.status == Constant.STATUS_PAUSE) {
+                if (status == Constant.STATUS_PAUSE) {
                     Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
                     intent.putExtra(Constant.COMMAND,Constant.COMMAND_PLAY);
                     getActivity().sendBroadcast(intent);
-                }else if (PlayerManagerReceiver.status == Constant.STATUS_PLAY) {
+                }else if (status == Constant.STATUS_PLAY) {
                     Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
                     intent.putExtra(Constant.COMMAND, Constant.COMMAND_PAUSE);
                     getActivity().sendBroadcast(intent);
@@ -199,6 +202,24 @@ public class PlayBarFragment extends Fragment {
         }else{
             musicNameTv.setText(dbManager.getMusicInfo(musicId).get(1));
             singerNameTv.setText(dbManager.getMusicInfo(musicId).get(2));
+        }
+    }
+
+    private void initPlayIv(){
+        int status = PlayerManagerReceiver.status;
+        switch (status) {
+            case Constant.STATUS_STOP:
+                playIv.setSelected(false);
+                break;
+            case Constant.STATUS_PLAY:
+                playIv.setSelected(true);
+                break;
+            case Constant.STATUS_PAUSE:
+                playIv.setSelected(false);
+                break;
+            case Constant.STATUS_RUN:
+                playIv.setSelected(true);
+                break;
         }
     }
 

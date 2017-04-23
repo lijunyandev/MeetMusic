@@ -82,6 +82,8 @@
         android:layout_height="match_parent"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:layout_below="@+id/playing_list_ll"
         android:layout_above="@id/playing_list_close_tv"
-        android:layout_below="@id/playing_list_ll"></android.support.v7.widget.RecyclerView>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>

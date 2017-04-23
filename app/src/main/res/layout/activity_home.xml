@@ -254,7 +254,7 @@
                 android:id="@+id/home_my_pl_arror_iv"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="16dp"
                 android:src="@drawable/arrow_right" />
         </LinearLayout>
 

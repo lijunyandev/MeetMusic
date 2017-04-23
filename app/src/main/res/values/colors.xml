@@ -25,4 +25,5 @@
     <color name="grey700">#515151</color>
     <color name="grey800">#ff424242</color>
     <color name="grey900">#ff282828</color>
+    <color name="bg_album">#ECECEC</color>
 </resources>

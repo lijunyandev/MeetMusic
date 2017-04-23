@@ -82,6 +82,7 @@ public class LastMyloveActivity extends BaseActivity {
             }
         }
         init();
+        register();
 
     }
 
@@ -250,7 +251,13 @@ public class LastMyloveActivity extends BaseActivity {
 
 
     public void showPopFormBottom(MusicInfo musicInfo) {
-        MusicPopMenuWindow menuPopupWindow = new MusicPopMenuWindow(LastMyloveActivity.this,musicInfo,findViewById(R.id.activity_last_mylove));
+        MusicPopMenuWindow menuPopupWindow;
+        if (label.equals(Constant.LABEL_LAST)){
+            menuPopupWindow = new MusicPopMenuWindow(LastMyloveActivity.this,musicInfo,findViewById(R.id.activity_last_mylove),Constant.ACTIVITY_RECENTPLAY);
+        }else {
+            menuPopupWindow = new MusicPopMenuWindow(LastMyloveActivity.this,musicInfo,findViewById(R.id.activity_last_mylove),Constant.ACTIVITY_MYLOVE);
+        }
+
 //      设置Popupwindow显示位置（从底部弹出）
         menuPopupWindow.showAtLocation(findViewById(R.id.activity_last_mylove), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
         WindowManager.LayoutParams params = getWindow().getAttributes();
@@ -265,6 +272,13 @@ public class LastMyloveActivity extends BaseActivity {
                 WindowManager.LayoutParams params = getWindow().getAttributes();
                 params.alpha=1f;
                 getWindow().setAttributes(params);
+            }
+        });
+
+        menuPopupWindow.setOnDeleteUpdateListener(new MusicPopMenuWindow.OnDeleteUpdateListener() {
+            @Override
+            public void onDeleteUpdate() {
+                updateView();
             }
         });
 
@@ -348,19 +362,12 @@ public class LastMyloveActivity extends BaseActivity {
         ((SwipeMenuLayout) swipeView).quickClose();
     }
 
-
     @Override
-    protected void onStart() {
-        super.onStart();
-        register();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         unRegister();
     }
+
 
     private void register() {
         try {

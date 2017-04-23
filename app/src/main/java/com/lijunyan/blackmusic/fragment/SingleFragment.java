@@ -98,7 +98,7 @@ public class SingleFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
-
+        register();
         recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onOpenMenuClick(int position) {
@@ -234,7 +234,7 @@ public class SingleFragment extends Fragment {
     }
 
     public void showPopFormBottom(MusicInfo musicInfo) {
-        MusicPopMenuWindow menuPopupWindow = new MusicPopMenuWindow(getActivity(),musicInfo,view);
+        MusicPopMenuWindow menuPopupWindow = new MusicPopMenuWindow(getActivity(),musicInfo,view,Constant.ACTIVITY_LOCAL);
 //      设置Popupwindow显示位置（从底部弹出）
         menuPopupWindow.showAtLocation(view, Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
         WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
@@ -249,6 +249,12 @@ public class SingleFragment extends Fragment {
                 WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
                 params.alpha=1f;
                 getActivity().getWindow().setAttributes(params);
+            }
+        });
+        menuPopupWindow.setOnDeleteUpdateListener(new MusicPopMenuWindow.OnDeleteUpdateListener() {
+            @Override
+            public void onDeleteUpdate() {
+                updateView();
             }
         });
 
@@ -329,17 +335,9 @@ public class SingleFragment extends Fragment {
     }
 
 
-
     @Override
-    public void onStart() {
-        super.onStart();
-        register();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroyView() {
+        super.onDestroyView();
         unRegister();
     }
 

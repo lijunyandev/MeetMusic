@@ -61,12 +61,13 @@ public class PlayerManagerReceiver extends BroadcastReceiver {
                 mediaPlayer.pause();
                 status = Constant.STATUS_PAUSE;
                 break;
-            case Constant.COMMAND_STOP:
+            case Constant.COMMAND_STOP: //本程序停止状态都是删除当前播放音乐触发
                 NumberRandom();
                 status = Constant.STATUS_STOP;
                 if(mediaPlayer!=null) {
-                    mediaPlayer.release();
+                    mediaPlayer.stop();
                 }
+                initStopOperate();
                 break;
             case Constant.COMMAND_PROGRESS://拖动进度
                 int curProgress = intent.getIntExtra(Constant.KEY_CURRENT, 0);
@@ -77,6 +78,9 @@ public class PlayerManagerReceiver extends BroadcastReceiver {
         UpdateUI();
     }
 
+    private void initStopOperate(){
+        MyMusicUtil.setShared(Constant.KEY_ID,dbManager.getFirstId(Constant.LIST_ALLMUSIC));
+    }
 
     private void playMusic(String musicPath) {
         NumberRandom();

@@ -28,7 +28,7 @@
                 android:padding="3dp"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:src="@drawable/disc" />
+                android:src="@drawable/album" />
 
             <LinearLayout
                 android:id="@+id/home_music_name_ll"

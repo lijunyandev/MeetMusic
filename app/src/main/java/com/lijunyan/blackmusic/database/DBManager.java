@@ -276,7 +276,7 @@ public class DBManager {
         int id;
         db.beginTransaction();
         try{
-            String sql = "select * from "+DatabaseHelper.PLAY_LISY_MUSIC_TABLE+" where "+ ID_COLUMN+" = ? ";
+            String sql = "select * from "+DatabaseHelper.PLAY_LISY_MUSIC_TABLE+" where "+ ID_COLUMN+" = ? ORDER BY "+ DatabaseHelper.ID_COLUMN;
             cursor = db.rawQuery(sql,new String[]{""+playlistId});
             while (cursor.moveToNext()){
                 MusicInfo musicInfo = new MusicInfo();
@@ -642,7 +642,7 @@ public class DBManager {
                 cursor = db.query(DatabaseHelper.MUSIC_TABLE, null, null, null, null, null, null);
                 break;
             case Constant.LIST_LASTPLAY:
-                cursor = db.query(DatabaseHelper.LAST_PLAY_TABLE, null, null, null, null, null, null);
+                cursor = db.rawQuery("select * from "+DatabaseHelper.LAST_PLAY_TABLE+" ORDER BY "+ DatabaseHelper.ID_COLUMN,null);
                 break;
             case Constant.LIST_MYLOVE:
                 cursor = db.query(DatabaseHelper.MUSIC_TABLE, null, DatabaseHelper.LOVE_COLUMN + " = ?", new String[]{"" + 1}, null, null, null);

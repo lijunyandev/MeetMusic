@@ -31,12 +31,6 @@ public class SingerFragment extends Fragment {
     private List<SingerInfo> singerInfoList;
     private DBManager dbManager;
     private Context mContext;
-    
-    public SingerFragment() {
-        dbManager = DBManager.getInstance(getContext());
-        singerInfoList = dbManager.getSingerList();
-        Log.e(TAG, "SingerFragment: singerInfoList.size() ="+ singerInfoList.size());
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -58,6 +52,9 @@ public class SingerFragment extends Fragment {
         Log.d("aaaa", "onCreateView: ");
         View view = inflater.inflate(R.layout.fragment_singer,container,false);
         recyclerView = (RecyclerView)view.findViewById(R.id.singer_recycler_view);
+        dbManager = DBManager.getInstance(getContext());
+        singerInfoList = dbManager.getSingerList();
+        Log.e(TAG, "SingerFragment: singerInfoList.size() ="+ singerInfoList.size());
         adapter = new SingerAdapter(getContext(),singerInfoList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

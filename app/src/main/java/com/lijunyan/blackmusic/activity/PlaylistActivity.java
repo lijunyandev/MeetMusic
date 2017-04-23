@@ -61,6 +61,7 @@ public class PlaylistActivity extends BaseActivity {
         dbManager = DBManager.getInstance(this);
         musicInfoList = dbManager.getMusicListByPlaylist(playListInfo.getId());
         initView();
+        register();
     }
 
     @Override
@@ -135,7 +136,7 @@ public class PlaylistActivity extends BaseActivity {
     }
 
     public void showPopFormBottom(MusicInfo musicInfo) {
-        MusicPopMenuWindow menuPopupWindow = new MusicPopMenuWindow(PlaylistActivity.this,musicInfo,findViewById(R.id.activity_playlist));
+        MusicPopMenuWindow menuPopupWindow = new MusicPopMenuWindow(PlaylistActivity.this,musicInfo,findViewById(R.id.activity_playlist),Constant.ACTIVITY_MYLIST);
 //      设置Popupwindow显示位置（从底部弹出）
         menuPopupWindow.showAtLocation(findViewById(R.id.activity_playlist), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
         WindowManager.LayoutParams params = PlaylistActivity.this.getWindow().getAttributes();
@@ -153,6 +154,14 @@ public class PlaylistActivity extends BaseActivity {
             }
         });
 
+        menuPopupWindow.setOnDeleteUpdateListener(new MusicPopMenuWindow.OnDeleteUpdateListener() {
+            @Override
+            public void onDeleteUpdate() {
+                musicInfoList = dbManager.getMusicListByPlaylist(playListInfo.getId());
+                playlistAdapter.updateMusicInfoList(musicInfoList);
+            }
+        });
+
     }
 
 
@@ -166,19 +175,12 @@ public class PlaylistActivity extends BaseActivity {
     }
 
 
-
     @Override
-    protected void onStart() {
-        super.onStart();
-        register();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         unRegister();
     }
+
 
     private void register() {
         try {

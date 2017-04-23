@@ -21,6 +21,7 @@ import com.lijunyan.blackmusic.R;
 import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.MusicInfo;
 import com.lijunyan.blackmusic.entity.PlayListInfo;
+import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +147,7 @@ public class AddPlaylistWindow extends PopupWindow {
             if (convertView == null) {
                 holder = new Holder();
                 convertView = LayoutInflater.from(activity).inflate(R.layout.play_list_view_item, null, false);
-                holder.swipView =  convertView.findViewById(R.id.play_list_content_swip_view);
+                holder.swipView =  (SwipeMenuLayout)convertView.findViewById(R.id.play_list_content_swip_view);
                 holder.contentLl = (LinearLayout) convertView.findViewById(R.id.play_list_content_ll);
                 holder.coverIv = (ImageView) convertView.findViewById(R.id.play_list_cover_iv);
                 holder.listName = (TextView) convertView.findViewById(R.id.play_list_name_tv);
@@ -155,7 +156,7 @@ public class AddPlaylistWindow extends PopupWindow {
             } else {
                 holder = (Holder) convertView.getTag();
             }
-            holder.swipView.setEnabled(false);
+            holder.swipView.setSwipeEnable(false);
 
 //        if (dataList.size() == 0){
 //            //展现默认的新建歌单列表
@@ -222,7 +223,7 @@ public class AddPlaylistWindow extends PopupWindow {
         }
 
         class Holder {
-            View swipView;
+            SwipeMenuLayout swipView;
             LinearLayout contentLl;
             ImageView coverIv;
             TextView listName;

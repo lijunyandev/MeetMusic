@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.lijunyan.blackmusic.R;
 import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.MusicInfo;
+import com.lijunyan.blackmusic.entity.PlayListInfo;
 import com.lijunyan.blackmusic.service.MusicPlayerService;
 import com.lijunyan.blackmusic.util.Constant;
 import com.lijunyan.blackmusic.util.MyMusicUtil;
@@ -41,17 +42,30 @@ public class MusicPopMenuWindow extends PopupWindow{
 //    private LinearLayout playLl;
     private LinearLayout addLl;
     private LinearLayout loveLl;
-    private LinearLayout ringLl;
+//    private LinearLayout ringLl;
     private LinearLayout deleteLl;
     private LinearLayout cancelLl;
     private MusicInfo musicInfo;
+    private PlayListInfo playListInfo;
+    private int witchActivity = Constant.ACTIVITY_LOCAL;
     private View parentView;
 
-    public MusicPopMenuWindow(Activity activity, MusicInfo musicInfo,View parentView) {
+    public MusicPopMenuWindow(Activity activity, MusicInfo musicInfo,View parentView,int witchActivity) {
         super(activity);
         this.activity = activity;
         this.musicInfo = musicInfo;
         this.parentView = parentView;
+        this.witchActivity = witchActivity;
+        initView();
+    }
+
+    public MusicPopMenuWindow(Activity activity, MusicInfo musicInfo,View parentView,int witchActivity,PlayListInfo playListInfo) {
+        super(activity);
+        this.activity = activity;
+        this.musicInfo = musicInfo;
+        this.parentView = parentView;
+        this.witchActivity = witchActivity;
+        this.playListInfo = playListInfo;
         initView();
     }
 
@@ -95,7 +109,7 @@ public class MusicPopMenuWindow extends PopupWindow{
 //        playLl = (LinearLayout) view.findViewById(R.id.popwin_play_ll);
         addLl = (LinearLayout) view.findViewById(R.id.popwin_add_rl);
         loveLl = (LinearLayout) view.findViewById(R.id.popwin_love_ll);
-        ringLl = (LinearLayout) view.findViewById(R.id.popwin_ring_ll);
+//        ringLl = (LinearLayout) view.findViewById(R.id.popwin_ring_ll);
         deleteLl = (LinearLayout) view.findViewById(R.id.popwin_delete_ll);
         cancelLl = (LinearLayout) view.findViewById(R.id.popwin_cancel_ll);
 
@@ -146,13 +160,13 @@ public class MusicPopMenuWindow extends PopupWindow{
             }
         });
 
-        ringLl.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                MyMusicUtil.setMyRingtone(activity);
-                dismiss();
-            }
-        });
+//        ringLl.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View v) {
+//                MyMusicUtil.setMyRingtone(activity);
+//                dismiss();
+//            }
+//        });
 
         deleteLl.setOnClickListener(new View.OnClickListener() {
 
@@ -207,15 +221,22 @@ public class MusicPopMenuWindow extends PopupWindow{
                     }
                 }else {
                     //从列表移除
-//                            dbManager.removeMusic(curId,((LocalMusicActivity)context).getWitchActivity());
-//                            if (curId == musicId){
-//                                //移除的是当前播放的音乐
-//                                Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
-//                                intent.putExtra(Constant.COMMAND, Constant.COMMAND_STOP);
-//                                context.sendBroadcast(intent);
-//                            }
+                    if (witchActivity == Constant.ACTIVITY_MYLIST){
+                        dbManager.removeMusicFromPlaylist(curId,playListInfo.getId());
+                    }else {
+                        dbManager.removeMusic(curId,witchActivity);
+                    }
+
+                    if (curId == musicId) {
+                        //移除的是当前播放的音乐
+                        Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
+                        intent.putExtra(Constant.COMMAND, Constant.COMMAND_STOP);
+                        context.sendBroadcast(intent);
+                    }
                 }
-//                        ((LocalMusicActivity)activity).updateView();
+                if(onDeleteUpdateListener != null){
+                    onDeleteUpdateListener.onDeleteUpdate();
+                }
                 dialog.dismiss();
 
             }
@@ -240,5 +261,13 @@ public class MusicPopMenuWindow extends PopupWindow{
 //        }
     }
 
+    private OnDeleteUpdateListener onDeleteUpdateListener;
 
+    public void setOnDeleteUpdateListener(OnDeleteUpdateListener onDeleteUpdateListener){
+        this.onDeleteUpdateListener = onDeleteUpdateListener;
+    }
+
+    public interface OnDeleteUpdateListener {
+        void onDeleteUpdate();
+    }
 }

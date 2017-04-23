@@ -80,6 +80,7 @@ public class ModelActivity extends BaseActivity {
         musicInfoList = new ArrayList<>();
         init();
         updateView();
+        register();
     }
 
     @Override
@@ -232,7 +233,7 @@ public class ModelActivity extends BaseActivity {
 
 
     public void showPopFormBottom(MusicInfo musicInfo) {
-        MusicPopMenuWindow menuPopupWindow = new MusicPopMenuWindow(ModelActivity.this, musicInfo, findViewById(R.id.activity_model));
+        MusicPopMenuWindow menuPopupWindow = new MusicPopMenuWindow(ModelActivity.this, musicInfo, findViewById(R.id.activity_model),Constant.ACTIVITY_LOCAL);
 //      设置Popupwindow显示位置（从底部弹出）
         menuPopupWindow.showAtLocation(findViewById(R.id.activity_model), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         WindowManager.LayoutParams params = ModelActivity.this.getWindow().getAttributes();
@@ -249,6 +250,12 @@ public class ModelActivity extends BaseActivity {
                 getWindow().setAttributes(params);
             }
         });
+        menuPopupWindow.setOnDeleteUpdateListener(new MusicPopMenuWindow.OnDeleteUpdateListener() {
+            @Override
+            public void onDeleteUpdate() {
+                updateView();
+            }
+        });
 
     }
 
@@ -261,17 +268,9 @@ public class ModelActivity extends BaseActivity {
         return true;
     }
 
-
     @Override
-    protected void onStart() {
-        super.onStart();
-        register();
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         unRegister();
     }
 

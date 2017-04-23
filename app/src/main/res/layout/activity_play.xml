@@ -67,12 +67,16 @@
                 android:text="歌手"
                 android:textColor="@color/grey50"
                 android:textSize="16sp" />
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_disc_rotate"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:padding="30dp"-->
-                <!--android:src="@drawable/playlist"/>-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_disc_rotate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bg_disc"/>
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout

@@ -24,8 +24,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:padding="5dp"
-            android:background="@color/grey200"
-            android:src="@drawable/playlist" />
+            android:src="@drawable/album" />
 
         <LinearLayout
             android:layout_width="match_parent"
