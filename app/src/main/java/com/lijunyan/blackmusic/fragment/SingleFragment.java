@@ -26,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lijunyan.blackmusic.R;
-import com.lijunyan.blackmusic.activity.LocalMusicActivity;
 import com.lijunyan.blackmusic.adapter.RecyclerViewAdapter;
 import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.MusicInfo;
@@ -39,6 +38,7 @@ import com.lijunyan.blackmusic.view.SideBar;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,19 +56,15 @@ public class SingleFragment extends Fragment {
     private SideBar sideBar;
     private TextView sideBarPreTv;
     public  RecyclerViewAdapter recyclerViewAdapter;
-    private List<MusicInfo> musicInfoList;
+    private List<MusicInfo> musicInfoList = new ArrayList<>();
     private DBManager dbManager;
     private View view;
     private Context context;
-    private LocalMusicActivity activity;
     private UpdateReceiver mReceiver;
 
-    public SingleFragment() {
-        Log.d(TAG, "SingleFragment: " );
-        this.activity = (LocalMusicActivity)getActivity();
-        if (activity == null){
-            Log.e(TAG, "SingleFragment: activity == null");
-        }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        register();
     }
 
     @Override
@@ -76,8 +72,6 @@ public class SingleFragment extends Fragment {
         super.onAttach(context);
         this.context = context;
         dbManager = DBManager.getInstance(context);
-        musicInfoList = dbManager.getAllMusicFromMusicTable();
-        Collections.sort(musicInfoList);
     }
 
     @Override
@@ -92,13 +86,13 @@ public class SingleFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         Log.d(TAG, "onCreateView: " );
         view = inflater.inflate(R.layout.fragment_single,container,false);
+        Collections.sort(musicInfoList);
         recyclerView = (RecyclerView)view.findViewById(R.id.local_recycler_view);
         recyclerViewAdapter = new RecyclerViewAdapter(getActivity(),musicInfoList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerViewAdapter);
-        register();
         recyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onOpenMenuClick(int position) {
@@ -110,21 +104,6 @@ public class SingleFragment extends Fragment {
             public void onDeleteMenuClick(View swipeView, int position) {
                 MusicInfo musicInfo = musicInfoList.get(position);
                 deleteOperate(swipeView,position,context);
-//                final int curId = musicInfo.getId();
-//                final int musicId = MyMusicUtil.getIntShared(Constant.KEY_ID);
-//                //从列表移除
-//                dbManager.removeMusic(musicInfo.getId(),Constant.ACTIVITY_LOCAL);
-//                if (curId == musicId) {
-//                    //移除的是当前播放的音乐
-//                    Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
-//                    intent.putExtra(Constant.COMMAND, Constant.COMMAND_STOP);
-//                    context.sendBroadcast(intent);
-//                }
-//                recyclerViewAdapter.notifyItemRemoved(position);//推荐用这个
-//                updateView();
-//                //如果删除时，不使用mAdapter.notifyItemRemoved(pos)，则删除没有动画效果，
-//                //且如果想让侧滑菜单同时关闭，需要同时调用 ((CstSwipeDelMenu) holder.itemView).quickClose();
-//                ((SwipeMenuLayout) swipeView).quickClose();
             }
 
             @Override
@@ -220,7 +199,7 @@ public class SingleFragment extends Fragment {
         musicInfoList = dbManager.getAllMusicFromMusicTable();
         Collections.sort(musicInfoList);
         recyclerViewAdapter.updateMusicInfoList(musicInfoList);
-
+        Log.d(TAG, "updateView: musicInfoList.size() = "+musicInfoList.size());
         if (musicInfoList.size() == 0){
             sideBar.setVisibility(View.GONE);
             playModeRl.setVisibility(View.GONE);
@@ -336,8 +315,8 @@ public class SingleFragment extends Fragment {
 
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         unRegister();
     }
 

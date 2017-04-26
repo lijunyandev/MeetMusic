@@ -39,6 +39,7 @@ import com.lijunyan.blackmusic.view.SideBar;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 /*
@@ -56,7 +57,7 @@ public class LastMyloveActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private SideBar sideBar;
     public  RecyclerViewAdapter recyclerViewAdapter;
-    private List<MusicInfo> musicInfoList;
+    private List<MusicInfo> musicInfoList = new ArrayList<>();
     private DBManager dbManager;
     private String label;
     private UpdateReceiver mReceiver;
@@ -74,16 +75,10 @@ public class LastMyloveActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             if (label != null){
                 actionBar.setTitle(label);
-                if (label.equals(Constant.LABEL_LAST)){
-                    musicInfoList = dbManager.getAllMusicFromTable(Constant.LIST_LASTPLAY);
-                }else if (label.equals(Constant.LABEL_MYLOVE)){
-                    musicInfoList = dbManager.getAllMusicFromTable(Constant.LIST_MYLOVE);
-                }
             }
         }
         init();
         register();
-
     }
 
     private void init(){
@@ -230,9 +225,9 @@ public class LastMyloveActivity extends BaseActivity {
                     musicInfoList = dbManager.getAllMusicFromTable(Constant.LIST_LASTPLAY);
                 } else if (label.equals(Constant.LABEL_MYLOVE)) {
                     musicInfoList = dbManager.getAllMusicFromTable(Constant.LIST_MYLOVE);
+                    Collections.sort(musicInfoList);
                 }
             }
-            Collections.sort(musicInfoList);
             recyclerViewAdapter.updateMusicInfoList(musicInfoList);
 
             if (musicInfoList.size() == 0) {

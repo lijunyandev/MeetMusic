@@ -16,7 +16,9 @@ import com.lijunyan.blackmusic.activity.ModelActivity;
 import com.lijunyan.blackmusic.adapter.FolderAdapter;
 import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.FolderInfo;
+import com.lijunyan.blackmusic.util.MyMusicUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,15 +30,10 @@ public class FolderFragment extends Fragment {
     private static final String TAG = "FolderFragment";
     private RecyclerView recyclerView;
     private FolderAdapter adapter;
-    private List<FolderInfo> folderInfoList;
+    private List<FolderInfo> folderInfoList = new ArrayList<>();
     private DBManager dbManager;
     private Context mContext;
 
-    public FolderFragment() {
-        dbManager = DBManager.getInstance(getContext());
-        folderInfoList = dbManager.getFolderList();
-        Log.e(TAG, "FolderFragment: folderInfoList.size() ="+ folderInfoList.size());
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -48,6 +45,7 @@ public class FolderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_singer,container,false);
+        dbManager = DBManager.getInstance(getContext());
         recyclerView = (RecyclerView)view.findViewById(R.id.singer_recycler_view);
         adapter = new FolderAdapter(getContext(),folderInfoList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -76,7 +74,8 @@ public class FolderFragment extends Fragment {
     public void onResume() {
         super.onResume();
         folderInfoList.clear();
-        folderInfoList.addAll(dbManager.getFolderList());
+        folderInfoList.addAll(MyMusicUtil.groupByFolder((ArrayList)dbManager.getAllMusicFromMusicTable()));
+        Log.d(TAG, "onResume: folderInfoList.size() = "+folderInfoList.size());
         adapter.notifyDataSetChanged();
     }
 }

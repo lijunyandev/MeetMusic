@@ -74,25 +74,21 @@ public class ScanActivity extends AppCompatActivity {
             }
         });
 
+
         handler = new Handler() {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
+                    case Constant.SCAN_NO_MUSIC:
+                        Toast.makeText(ScanActivity.this,"本地没有歌曲，快去下载吧",Toast.LENGTH_SHORT).show();
+                        scanComplete();
+                        break;
                     case Constant.SCAN_ERROR:
                         Toast.makeText(ScanActivity.this, "数据库错误", Toast.LENGTH_LONG).show();
-
+                        scanComplete();
+                        break;
                     case Constant.SCAN_COMPLETE:
-                        scanBtn.setText("完成");
-                        scanning = false;
-                        scanBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (!scanning){
-                                    ScanActivity.this.finish();
-                                }
-                            }
-                        });
-                        scanView.stop();
+                        scanComplete();
                         break;
                     case Constant.SCAN_UPDATE:
                         int updateProgress = msg.getData().getInt("progress");
@@ -106,7 +102,20 @@ public class ScanActivity extends AppCompatActivity {
 
     }
 
-    private void startScanLocalMusic() {
+    private void scanComplete(){
+        scanBtn.setText("完成");
+        scanning = false;
+        scanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!scanning){
+                    ScanActivity.this.finish();
+                }
+            }
+        });
+        scanView.stop();
+    }
+    public void startScanLocalMusic() {
 
         new Thread() {
 
@@ -134,6 +143,12 @@ public class ScanActivity extends AppCompatActivity {
                             String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ALBUM));
                             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA));
                             String duration = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DURATION));
+
+//                            if (duration != null && Long.valueOf(duration) < 1000 * 60){
+//                                Log.e(TAG, "run: name = "+name+" duration < 1000 * 60" );
+//                                continue;
+//                            }
+
                             File file = new File(path);
                             String parentPath = file.getParentFile().getPath();
 
@@ -187,11 +202,9 @@ public class ScanActivity extends AppCompatActivity {
                         dbManager.updateAllMusic(musicInfoList);
                     }else {
                         msg = new Message();
-                        msg.what = Constant.SCAN_COMPLETE;
+                        msg.what = Constant.SCAN_NO_MUSIC;
                         handler.sendMessage(msg);  //更新UI界面
-                        Toast.makeText(ScanActivity.this,"本地没有歌曲，快去下载吧",Toast.LENGTH_SHORT).show();
                     }
-
 //                    MyMusicUtil.setShared("id",1 );
                     if (cursor != null) {
                         cursor.close();
@@ -208,7 +221,7 @@ public class ScanActivity extends AppCompatActivity {
         }.start();
     }
 
-    private String replaseUnKnowe(String oldStr){
+    public static String replaseUnKnowe(String oldStr){
         try {
             if (oldStr != null){
                 if (oldStr.equals("<unknown>")){

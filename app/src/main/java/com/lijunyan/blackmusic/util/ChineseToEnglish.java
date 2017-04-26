@@ -10,6 +10,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 public class ChineseToEnglish {
+    private static final String TAG = "ChineseToEnglish";
     /**
      * 返回一个字的拼音
      */
@@ -26,9 +27,16 @@ public class ChineseToEnglish {
             }
         } catch (BadHanyuPinyinOutputFormatCombination e) {
             e.printStackTrace();
+            Log.e(TAG, "toPinYin: hanzi = "+hanzi );
+            Log.e(TAG, "toPinYin: pinyinArray.toString() = "+pinyinArray.toString() );
         }
         //将获取到的拼音返回
-        return pinyinArray[0];
+        if (pinyinArray != null && pinyinArray.length > 0) {
+            return pinyinArray[0];
+        } else {
+            Log.e(TAG, "toPinYin: hanzi = "+hanzi );
+            return "#";
+        }
     }
 
     //字符串转换成拼音

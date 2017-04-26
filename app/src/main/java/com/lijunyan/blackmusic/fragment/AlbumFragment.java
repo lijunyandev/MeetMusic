@@ -16,8 +16,9 @@ import com.lijunyan.blackmusic.activity.ModelActivity;
 import com.lijunyan.blackmusic.adapter.AlbumAdapter;
 import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.AlbumInfo;
+import com.lijunyan.blackmusic.util.MyMusicUtil;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by lijunyan on 2017/3/9.
@@ -28,15 +29,10 @@ public class AlbumFragment extends Fragment {
     private static final String TAG = "AlbumFragment";
     private RecyclerView recyclerView;
     private AlbumAdapter adapter;
-    private List<AlbumInfo> albumInfoList;
+    private ArrayList<AlbumInfo> albumInfoList = new ArrayList<>();
     private DBManager dbManager;
     private Context mContext;
 
-    public AlbumFragment() {
-        dbManager = DBManager.getInstance(getContext());
-        albumInfoList = dbManager.getAlbumList();
-        Log.e(TAG, "AlbumFragment: albumInfoList.size() ="+ albumInfoList.size());
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -47,7 +43,8 @@ public class AlbumFragment extends Fragment {
     public void onResume() {
         super.onResume();
         albumInfoList.clear();
-        albumInfoList.addAll(dbManager.getAlbumList());
+        albumInfoList.addAll(MyMusicUtil.groupByAlbum((ArrayList)dbManager.getAllMusicFromMusicTable()));
+        Log.d(TAG, "onResume: albumInfoList.size() = "+albumInfoList.size());
         adapter.notifyDataSetChanged();
     }
 
@@ -55,6 +52,7 @@ public class AlbumFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_singer,container,false);
+        dbManager = DBManager.getInstance(getContext());
         recyclerView = (RecyclerView)view.findViewById(R.id.singer_recycler_view);
         adapter = new AlbumAdapter(getContext(),albumInfoList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());

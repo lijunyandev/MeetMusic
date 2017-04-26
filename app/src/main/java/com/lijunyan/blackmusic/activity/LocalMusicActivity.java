@@ -56,18 +56,6 @@ public class LocalMusicActivity extends BaseActivity {
 
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
@@ -76,7 +64,7 @@ public class LocalMusicActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e(TAG, "onResume: " );
+        Log.d(TAG, "onResume: " );
     }
 
 

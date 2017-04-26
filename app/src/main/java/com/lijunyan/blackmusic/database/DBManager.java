@@ -6,20 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.lijunyan.blackmusic.entity.AlbumInfo;
-import com.lijunyan.blackmusic.entity.FolderInfo;
 import com.lijunyan.blackmusic.entity.MusicInfo;
 import com.lijunyan.blackmusic.entity.PlayListInfo;
-import com.lijunyan.blackmusic.entity.SingerInfo;
 import com.lijunyan.blackmusic.util.ChineseToEnglish;
 import com.lijunyan.blackmusic.util.Constant;
 import com.lijunyan.blackmusic.util.MyMusicUtil;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static com.lijunyan.blackmusic.database.DatabaseHelper.ID_COLUMN;
 import static com.lijunyan.blackmusic.database.DatabaseHelper.MUSIC_ID_COLUMN;
@@ -76,7 +70,7 @@ public class DBManager {
 
     public List<MusicInfo> getAllMusicFromMusicTable() {
         Log.d(TAG, "getAllMusicFromMusicTable: ");
-        List<MusicInfo> musicInfoList = null;
+        List<MusicInfo> musicInfoList = new ArrayList<>();
         Cursor cursor = null;
         db.beginTransaction();
         try {
@@ -109,25 +103,13 @@ public class DBManager {
             e.printStackTrace();
         } finally {
             db.endTransaction();
+            if (cursor!=null){
+                cursor.close();
+            }
         }
         return musicInfo;
     }
 
-//    public List<Integer> getAllMusicFromLastPlayTable() {
-//        Log.d(TAG, "getAllMusicFromLastPlayTable: ");
-//        List<Integer> lastList = new ArrayList<>();
-//        Cursor cursor = null;
-//        try {
-//            cursor = db.query(DatabaseHelper.LAST_PLAY_TABLE, null, null, null, null, null, null);
-//            Log.e(TAG, "getAllMusicFromLastPlayTable: cursor.getCount() = " + cursor.getCount());
-//            while (cursor.moveToNext()) {
-//                lastList.add(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.ID_COLUMN)));
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return lastList;
-//    }
 
     public List<MusicInfo> getAllMusicFromTable(int playList) {
         Log.d(TAG, "getAllMusicFromTable: ");
@@ -136,50 +118,27 @@ public class DBManager {
         for (int id : idList) {
             musicList.add(getSingleMusicFromMusicTable(id));
         }
-//        Cursor cursor = null;
-//        try {
-//            switch (list){
-//                case Constant.LIST_ALLMUSIC:
-//                    cursor = db.query(DatabaseHelper.MUSIC_TABLE, null, null, null, null, null, null);
-//                    musicList = cursorToMusicList(cursor);
-//                    break;
-//                case Constant.LIST_LASTPLAY:
-//                    List<Integer> idList = new ArrayList<>();
-//                    cursor = db.query(DatabaseHelper.LAST_PLAY_TABLE, null, null, null, null, null, null);
-//                    while (cursor.moveToNext()) {
-//                        idList.add(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.ID_COLUMN)));
-//                    }
-//                    for (int id : idList){
-//                        musicList.add(getSingleMusicFromMusicTable(id));
-//                    }
-//                    break;
-//                case Constant.LIST_MYLOVE:
-//                    cursor = db.query(DatabaseHelper.MUSIC_TABLE, null, DatabaseHelper.LOVE_COLUMN + " = ? ",
-//                            new String[]{""+1}, null, null, null);
-//                    musicList = cursorToMusicList(cursor);
-//                    break;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }finally {
-//            if (cursor != null){
-//                cursor.close();
-//            }
-//        }
         return musicList;
     }
 
     public List<PlayListInfo> getMyPlayList() {
         List<PlayListInfo> playListInfos = new ArrayList<>();
         Cursor cursor = db.query(DatabaseHelper.PLAY_LIST_TABLE, null, null, null, null, null, null);
+        Cursor cursorCount = null;
         while (cursor.moveToNext()) {
             PlayListInfo playListInfo = new PlayListInfo();
             int id = Integer.valueOf(cursor.getString(cursor.getColumnIndex(ID_COLUMN)));
             playListInfo.setId(id);
             playListInfo.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.NAME_COLUMN)));
-            Cursor cursorCount = db.query(DatabaseHelper.PLAY_LISY_MUSIC_TABLE,null, ID_COLUMN + " = ?", new String[]{"" + id}, null,null,null);
+            cursorCount = db.query(DatabaseHelper.PLAY_LISY_MUSIC_TABLE,null, ID_COLUMN + " = ?", new String[]{"" + id}, null,null,null);
             playListInfo.setCount(cursorCount.getCount());
             playListInfos.add(playListInfo);
+        }
+        if (cursor!=null){
+            cursor.close();
+        }
+        if (cursorCount!=null){
+            cursorCount.close();
         }
         return playListInfos;
     }
@@ -296,120 +255,8 @@ public class DBManager {
     }
 
 
-    public List<SingerInfo> getSingerList() {
-        List<SingerInfo> singerInfos = new ArrayList<>();
-        Cursor cursor = null;
-        Cursor cursorCount = null;
-        db.beginTransaction();
-        try {
-            String sql = "select * from " + DatabaseHelper.MUSIC_TABLE;
-            String sqlC = "select * from " + DatabaseHelper.MUSIC_TABLE + " where " + DatabaseHelper.SINGER_COLUMN +
-                    " = ? ";
-            cursor = db.rawQuery(sql, null);
-            while (cursor.moveToNext()) {
-                SingerInfo singerInfo = new SingerInfo();
-                String singer = cursor.getString(cursor.getColumnIndex(DatabaseHelper.SINGER_COLUMN));
-                cursorCount = db.rawQuery(sqlC, new String[]{singer});
-                singerInfo.setName(singer);
-                singerInfo.setCount(cursorCount.getCount());
-                singerInfos.add(singerInfo);
-            }
-            //去重复
-            Set set = new HashSet(singerInfos);
-            singerInfos = new ArrayList<>(set);
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            db.endTransaction();
-            if (cursor != null) {
-                cursor.close();
-            }
-            if (cursorCount != null) {
-                cursorCount.close();
-            }
-        }
-        return singerInfos;
-    }
 
 
-    public List<AlbumInfo> getAlbumList() {
-        List<AlbumInfo> albumInfos = new ArrayList<>();
-        Cursor cursor = null;
-        Cursor cursorCount = null;
-        db.beginTransaction();
-        try {
-            String sql = "select * from " + DatabaseHelper.MUSIC_TABLE;
-            String sqlC = "select * from " + DatabaseHelper.MUSIC_TABLE + " where " + DatabaseHelper.ALBUM_COLUMN +
-                    " = ? ";
-            cursor = db.rawQuery(sql, null);
-            while (cursor.moveToNext()) {
-                AlbumInfo albumInfo = new AlbumInfo();
-                String album = cursor.getString(cursor.getColumnIndex(DatabaseHelper.ALBUM_COLUMN));
-                String singer = cursor.getString(cursor.getColumnIndex(DatabaseHelper.SINGER_COLUMN));
-                cursorCount = db.rawQuery(sqlC, new String[]{album});
-                albumInfo.setName(album);
-                albumInfo.setSinger(singer);
-                albumInfo.setCount(cursorCount.getCount());
-                albumInfos.add(albumInfo);
-            }
-            //去重复
-            Set set = new HashSet(albumInfos);
-            albumInfos = new ArrayList<>(set);
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            db.endTransaction();
-            if (cursor != null) {
-                cursor.close();
-            }
-            if (cursorCount != null) {
-                cursorCount.close();
-            }
-        }
-        return albumInfos;
-    }
-
-
-    public List<FolderInfo> getFolderList() {
-        List<FolderInfo> folderInfos = new ArrayList<>();
-        Cursor cursor = null;
-        Cursor cursorCount = null;
-        db.beginTransaction();
-        try {
-            String sql = "select * from " + DatabaseHelper.MUSIC_TABLE;
-            String sqlC = "select * from " + DatabaseHelper.MUSIC_TABLE + " where " + DatabaseHelper.PARENT_PATH_COLUMN +
-                    " = ? ";
-            cursor = db.rawQuery(sql, null);
-            while (cursor.moveToNext()) {
-                FolderInfo folderInfo = new FolderInfo();
-                String parentPath = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PARENT_PATH_COLUMN));
-                cursorCount = db.rawQuery(sqlC, new String[]{parentPath});
-                File file = new File(parentPath);
-                folderInfo.setName(file.getName());
-                folderInfo.setPath(parentPath);
-                folderInfo.setCount(cursorCount.getCount());
-                folderInfos.add(folderInfo);
-            }
-
-            //去重复
-            Set set = new HashSet(folderInfos);
-            folderInfos = new ArrayList<>(set);
-            db.setTransactionSuccessful();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            db.endTransaction();
-            if (cursor != null) {
-                cursor.close();
-            }
-            if (cursorCount != null) {
-                cursorCount.close();
-            }
-        }
-        return folderInfos;
-    }
 
     public void insertMusicListToMusicTable(List<MusicInfo> musicInfoList) {
         Log.d(TAG, "insertMusicListToMusicTable: ");
@@ -437,6 +284,9 @@ public class DBManager {
             db.insert(DatabaseHelper.MUSIC_TABLE, null, values);
         } catch (Exception e) {
             e.printStackTrace();
+            if (cursor!=null){
+                cursor.close();
+            }
         }
     }
 
@@ -450,10 +300,16 @@ public class DBManager {
 
     //检索音乐是否已经存在歌单中
     public boolean isExistPlaylist(int playlistId,int musicId){
-
+        boolean result = false;
         Cursor cursor = db.query(DatabaseHelper.PLAY_LISY_MUSIC_TABLE,null,ID_COLUMN + " = ? and "+ MUSIC_ID_COLUMN + " = ? ",
                 new String[]{""+playlistId,""+musicId},null,null,null);
-        return  cursor.moveToFirst();
+        if (cursor.moveToFirst()){
+            result= true;
+        }
+        if (cursor!=null){
+            cursor.close();
+        }
+        return  result;
     }
 
     public void updateAllMusic(List<MusicInfo> musicInfoList) {

@@ -1,5 +1,8 @@
 package com.lijunyan.blackmusic.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by lijunyan on 2016/12/19.
  *
@@ -14,7 +17,7 @@ package com.lijunyan.blackmusic.entity;
  MediaStore.Audio.Media.DATA};               //歌曲文件的全路径
  */
 
-public class MusicInfo implements Comparable{
+public class MusicInfo implements Comparable, Parcelable {
 
     private int id;
     private String name;
@@ -123,5 +126,50 @@ public class MusicInfo implements Comparable{
                 ", firstLetter='" + firstLetter + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.singer);
+        dest.writeString(this.album);
+        dest.writeString(this.duration);
+        dest.writeString(this.path);
+        dest.writeString(this.parentPath);
+        dest.writeInt(this.love);
+        dest.writeString(this.firstLetter);
+    }
+
+    public MusicInfo() {
+    }
+
+    protected MusicInfo(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.singer = in.readString();
+        this.album = in.readString();
+        this.duration = in.readString();
+        this.path = in.readString();
+        this.parentPath = in.readString();
+        this.love = in.readInt();
+        this.firstLetter = in.readString();
+    }
+
+    public static final Parcelable.Creator<MusicInfo> CREATOR = new Parcelable.Creator<MusicInfo>() {
+        @Override
+        public MusicInfo createFromParcel(Parcel source) {
+            return new MusicInfo(source);
+        }
+
+        @Override
+        public MusicInfo[] newArray(int size) {
+            return new MusicInfo[size];
+        }
+    };
 }
 

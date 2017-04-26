@@ -16,7 +16,9 @@ import com.lijunyan.blackmusic.activity.ModelActivity;
 import com.lijunyan.blackmusic.adapter.SingerAdapter;
 import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.SingerInfo;
+import com.lijunyan.blackmusic.util.MyMusicUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,9 +30,10 @@ public class SingerFragment extends Fragment {
     private static final String TAG = "SingerFragment";
     private RecyclerView recyclerView;
     private SingerAdapter adapter;
-    private List<SingerInfo> singerInfoList;
+    private List<SingerInfo> singerInfoList = new ArrayList<>();
     private DBManager dbManager;
     private Context mContext;
+
 
     @Override
     public void onAttach(Context context) {
@@ -42,7 +45,8 @@ public class SingerFragment extends Fragment {
     public void onResume() {
         super.onResume();
         singerInfoList.clear();
-        singerInfoList.addAll(dbManager.getSingerList());
+        singerInfoList.addAll(MyMusicUtil.groupBySinger((ArrayList) dbManager.getAllMusicFromMusicTable()));
+        Log.d(TAG, "onResume: singerInfoList.size() = "+singerInfoList.size());
         adapter.notifyDataSetChanged();
     }
 
@@ -53,7 +57,6 @@ public class SingerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_singer,container,false);
         recyclerView = (RecyclerView)view.findViewById(R.id.singer_recycler_view);
         dbManager = DBManager.getInstance(getContext());
-        singerInfoList = dbManager.getSingerList();
         Log.e(TAG, "SingerFragment: singerInfoList.size() ="+ singerInfoList.size());
         adapter = new SingerAdapter(getContext(),singerInfoList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
