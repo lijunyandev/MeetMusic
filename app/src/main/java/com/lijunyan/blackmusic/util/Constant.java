@@ -20,6 +20,7 @@ public class Constant {
 	public static final int COMMAND_PAUSE = 3; //暂停命令
 	public static final int COMMAND_STOP = 4; //停止命令
 	public static final int COMMAND_PROGRESS = 5; //改变进度命令
+	public static final int COMMAND_RELEASE = 6; //退出程序时释放
 
 	//播放模式
 	public static final int PLAYMODE_SEQUENCE = -1;

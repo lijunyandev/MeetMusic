@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lijunyan.blackmusic.R;
 import com.lijunyan.blackmusic.adapter.HomeListViewAdapter;
@@ -42,7 +45,7 @@ public class HomeActivity extends BaseActivity {
     private List<PlayListInfo> playListInfos;
     private int count;
     private boolean isOpenMyPL = false; //标识我的歌单列表打开状态
-
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +56,8 @@ public class HomeActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         init();
 
-        Intent serverIntent = new Intent(HomeActivity.this,MusicPlayerService.class);
-        startService(serverIntent);
+        Intent startIntent = new Intent(HomeActivity.this,MusicPlayerService.class);
+        startService(startIntent);
 
     }
 
@@ -165,6 +168,33 @@ public class HomeActivity extends BaseActivity {
     public void updatePlaylistCount(){
         count = dbManager.getMusicCount(Constant.LIST_MYPLAY);
         myPLCountTv.setText("(" + count + ")");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+
+        Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
+        intent.putExtra(Constant.COMMAND, Constant.COMMAND_RELEASE);
+        sendBroadcast(intent);
+        Intent stopIntent = new Intent(HomeActivity.this,MusicPlayerService.class);
+        stopService(stopIntent);
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

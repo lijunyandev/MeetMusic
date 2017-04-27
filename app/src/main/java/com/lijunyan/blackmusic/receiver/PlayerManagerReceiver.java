@@ -74,6 +74,14 @@ public class PlayerManagerReceiver extends BroadcastReceiver {
                 //异步的，可以设置完成监听来获取真正定位完成的时候
                 mediaPlayer.seekTo(curProgress);
                 break;
+            case Constant.COMMAND_RELEASE:
+                NumberRandom();
+                status = Constant.STATUS_STOP;
+                if(mediaPlayer!=null) {
+                    mediaPlayer.stop();
+                    mediaPlayer.release();
+                }
+                break;
         }
         UpdateUI();
     }
