@@ -51,7 +51,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     startMusicActivity();
                 }
             };
-            timer.schedule(task,1000 * 3);
+            timer.schedule(task,1500);
 //        }
     }
 

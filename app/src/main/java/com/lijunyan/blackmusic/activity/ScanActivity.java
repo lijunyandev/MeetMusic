@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class ScanActivity extends AppCompatActivity {
     private TextView scanProgressTv;
     private TextView scanPathTv;
     private TextView scanCountTv;
+    private CheckBox filterCb;
     private ScanView scanView;
     private Handler handler;
     private Message msg;
@@ -57,6 +59,7 @@ public class ScanActivity extends AppCompatActivity {
         scanProgressTv = (TextView) findViewById(R.id.scan_progress);
         scanCountTv = (TextView) findViewById(R.id.scan_count);
         scanPathTv = (TextView) findViewById(R.id.scan_path);
+        filterCb = (CheckBox) findViewById(R.id.scan_filter_cb);
         scanView = (ScanView) findViewById(R.id.scan_view);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -68,8 +71,16 @@ public class ScanActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!scanning) {
                     scanPathTv.setVisibility(View.VISIBLE);
+                    scanning = true;
                     startScanLocalMusic();
                     scanView.start();
+                    scanBtn.setText("停止扫描");
+                }else {
+                    scanPathTv.setVisibility(View.GONE);
+                    scanning = false;
+                    scanView.stop();
+                    scanCountTv.setText("");
+                    scanBtn.setText("开始扫描");
                 }
             }
         });
@@ -116,16 +127,13 @@ public class ScanActivity extends AppCompatActivity {
         scanView.stop();
     }
     public void startScanLocalMusic() {
-
         new Thread() {
 
             @Override
             public void run() {
                 super.run();
                 try {
-                    scanning = true ;
                     String[] muiscInfoArray = new String[]{
-                            MediaStore.Audio.Media._ID,                 //歌曲ID
                             MediaStore.Audio.Media.TITLE,               //歌曲名称
                             MediaStore.Audio.Media.ARTIST,              //歌曲歌手
                             MediaStore.Audio.Media.ALBUM,               //歌曲的专辑名
@@ -137,17 +145,19 @@ public class ScanActivity extends AppCompatActivity {
                         List<MusicInfo> musicInfoList = new ArrayList<MusicInfo>();
                         Log.i(TAG, "run: cursor.getCount() = " + cursor.getCount());
                         while (cursor.moveToNext()) {
-//                        String id = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns._ID));
+                            if (!scanning){
+                                return;
+                            }
                             String name = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.TITLE));
                             String singer = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST));
                             String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.ALBUM));
                             String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA));
                             String duration = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DURATION));
 
-//                            if (duration != null && Long.valueOf(duration) < 1000 * 60){
-//                                Log.e(TAG, "run: name = "+name+" duration < 1000 * 60" );
-//                                continue;
-//                            }
+                            if (filterCb.isChecked() && duration != null && Long.valueOf(duration) < 1000 * 60){
+                                Log.e(TAG, "run: name = "+name+" duration < 1000 * 60" );
+                                continue;
+                            }
 
                             File file = new File(path);
                             String parentPath = file.getParentFile().getPath();
@@ -156,24 +166,20 @@ public class ScanActivity extends AppCompatActivity {
                             singer = replaseUnKnowe(singer);
                             album = replaseUnKnowe(album);
                             path = replaseUnKnowe(path);
-                            duration = replaseUnKnowe(duration);
 
                             MusicInfo musicInfo = new MusicInfo();
 
-//                        musicInfo.setId(Integer.valueOf(id));
                             musicInfo.setName(name);
                             musicInfo.setSinger(singer);
                             musicInfo.setAlbum(album);
                             musicInfo.setPath(path);
                             Log.e(TAG, "run: parentPath = "+parentPath );
                             musicInfo.setParentPath(parentPath);
-//                        musicInfo.setDuration(duration);
                             musicInfo.setFirstLetter(ChineseToEnglish.StringToPinyinSpecial(name).toUpperCase().charAt(0)+"");
 
                             musicInfoList.add(musicInfo);
                             progress++;
                             scanPath = path;
-
 
                             musicCount = cursor.getCount();
                             msg = new Message();    //每次都必须new，必须发送新对象，不然会报错
@@ -205,7 +211,6 @@ public class ScanActivity extends AppCompatActivity {
                         msg.what = Constant.SCAN_NO_MUSIC;
                         handler.sendMessage(msg);  //更新UI界面
                     }
-//                    MyMusicUtil.setShared("id",1 );
                     if (cursor != null) {
                         cursor.close();
                     }

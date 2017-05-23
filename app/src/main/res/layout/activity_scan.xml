@@ -20,12 +20,29 @@
         android:layout_marginTop="100dp">
     </com.lijunyan.blackmusic.view.ScanView>
 
+    <LinearLayout
+        android:id="@+id/scan_filter_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/scan_view">
+        <CheckBox
+            android:id="@+id/scan_filter_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="不扫描60s以下的歌曲"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/scan_progress"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
         android:layout_marginTop="3dp"
-        android:layout_below="@id/scan_view"/>
+        android:layout_below="@id/scan_filter_ll"/>
 
     <TextView
         android:id="@+id/scan_path"
