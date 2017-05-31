@@ -9,7 +9,7 @@
         android:id="@+id/last_mylove_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     <RelativeLayout
         android:id="@+id/last_mylove_playmode_rl"
@@ -18,7 +18,7 @@
         android:layout_below="@id/last_mylove_toolbar"
         android:gravity="center_vertical"
         android:clickable="true"
-        android:background="@color/colorWhite">
+        android:background="?attr/appbg">
         <ImageView
             android:id="@+id/last_mylove_playmode_iv"
             android:layout_width="50dp"
@@ -34,11 +34,11 @@
             android:gravity="center_vertical"
             android:textSize="15sp"
             android:text="顺序播放"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:layout_alignParentBottom="true"
-            android:background="@color/grey200"></View>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dip"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:background="@color/grey200"></View>-->
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/last_mylove_recycler_view"

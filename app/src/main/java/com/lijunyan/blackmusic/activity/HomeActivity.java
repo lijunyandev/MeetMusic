@@ -3,11 +3,17 @@ package com.lijunyan.blackmusic.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,19 +22,29 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.lijunyan.blackmusic.R;
 import com.lijunyan.blackmusic.adapter.HomeListViewAdapter;
 import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.PlayListInfo;
 import com.lijunyan.blackmusic.service.MusicPlayerService;
 import com.lijunyan.blackmusic.util.Constant;
+import com.lijunyan.blackmusic.util.HttpUtil;
+import com.lijunyan.blackmusic.util.MyMusicUtil;
 
+import java.io.IOException;
 import java.util.List;
 
-public class HomeActivity extends BaseActivity {
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+public class HomeActivity extends PlayBarBaseActivity {
 
     private static final String TAG = HomeActivity.class.getName();
     private DBManager dbManager;
+    private DrawerLayout mDrawerLayout;
+    private ImageView navHeadIv;
     private LinearLayout localMusicLl;
     private LinearLayout lastPlayLl;
     private LinearLayout myLoveLl;
@@ -46,6 +62,7 @@ public class HomeActivity extends BaseActivity {
     private int count;
     private boolean isOpenMyPL = false; //标识我的歌单列表打开状态
     private long exitTime = 0;
+    private boolean isStartTheme = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +71,58 @@ public class HomeActivity extends BaseActivity {
         dbManager = DBManager.getInstance(HomeActivity.this);
         toolbar = (Toolbar)findViewById(R.id.home_activity_toolbar);
         setSupportActionBar(toolbar);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navView.getHeaderView(0);
+        navHeadIv = (ImageView)headerView.findViewById(R.id.nav_head_bg_iv);
+        loadBingPic();
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.drawer_menu);
+        }
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                mDrawerLayout.closeDrawers();
+                switch (item.getItemId()){
+                    case R.id.nav_theme:
+                        isStartTheme = true;
+                        Intent intentTheme = new Intent(HomeActivity.this,ThemeActivity.class);
+                        startActivity(intentTheme);
+//                        overridePendingTransition(R.anim.in_from_right_anim,R.anim.out_to_left_anim);
+                        break;
+                    case R.id.nav_night_mode:
+                        int preTheme = 0;
+                        if(MyMusicUtil.getNightMode(HomeActivity.this)){
+                            //当前为夜间模式，则恢复之前的主题
+                            MyMusicUtil.setNightMode(HomeActivity.this,false);
+                            preTheme = MyMusicUtil.getPreTheme(HomeActivity.this);
+                            MyMusicUtil.setTheme(HomeActivity.this,preTheme);
+                        }else {
+                            //当前为白天模式，则切换到夜间模式
+                            MyMusicUtil.setNightMode(HomeActivity.this,true);
+                            MyMusicUtil.setTheme(HomeActivity.this,ThemeActivity.THEME_SIZE-1);
+                        }
+//                        Intent intentNight = new Intent(HomeActivity.this,HomeActivity.class);
+//                        startActivity(intentNight);
+                        recreate();
+//                        overridePendingTransition(R.anim.start_anim,R.anim.out_anim);
+                        break;
+                    case R.id.nav_about_me:
+                        break;
+                    case R.id.nav_logout:
+                        finish();
+                        Intent intentBroadcast = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
+                        intentBroadcast.putExtra(Constant.COMMAND, Constant.COMMAND_RELEASE);
+                        sendBroadcast(intentBroadcast);
+                        Intent stopIntent = new Intent(HomeActivity.this,MusicPlayerService.class);
+                        stopService(stopIntent);
+                        break;
+                }
+                return true;
+            }
+        });
         init();
 
         Intent startIntent = new Intent(HomeActivity.this,MusicPlayerService.class);
@@ -129,6 +198,10 @@ public class HomeActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = playlistEt.getText().toString();
+                        if (TextUtils.isEmpty(name)) {
+                            Toast.makeText(HomeActivity.this,"请输入歌单名",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         dbManager.createPlaylist(name);
                         dialog.dismiss();
                         adapter.updateDataList();
@@ -175,26 +248,69 @@ public class HomeActivity extends BaseActivity {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
 
-        Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
-        intent.putExtra(Constant.COMMAND, Constant.COMMAND_RELEASE);
-        sendBroadcast(intent);
-        Intent stopIntent = new Intent(HomeActivity.this,MusicPlayerService.class);
-        stopService(stopIntent);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (isStartTheme){
+            HomeActivity.this.finish();
+        }
+        isStartTheme = false;
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
             if((System.currentTimeMillis()-exitTime) > 2000){
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "再按一次切换到桌面", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-                finish();
+                moveTaskToBack(true);
             }
             return true;
         }
+        finish();
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void loadBingPic(){
+        HttpUtil.sendOkHttpRequest(HttpUtil.requestBingPic, new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    final String bingPic = response.body().string();
+                    MyMusicUtil.setBingShared(bingPic);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Glide.with(HomeActivity.this).load(bingPic).into(navHeadIv);
+                        }
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+                    navHeadIv.setImageResource(R.drawable.bg_playlist);
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                navHeadIv.setImageResource(R.drawable.bg_playlist);
+            }
+        });
+        navHeadIv.setImageResource(R.drawable.bg_playlist);
+    }
 }

@@ -25,7 +25,7 @@ import com.lijunyan.blackmusic.view.MyViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalMusicActivity extends BaseActivity {
+public class LocalMusicActivity extends PlayBarBaseActivity {
 
     private static final String TAG = LocalMusicActivity.class.getName();
     private Toolbar toolbar;

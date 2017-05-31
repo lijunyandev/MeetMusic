@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ModelActivity extends BaseActivity {
+public class ModelActivity extends PlayBarBaseActivity {
 
     private static final String TAG = "ModelActivity";
     public static final String KEY_TITLE = "key_title";

@@ -11,10 +11,11 @@
     <color name="colorAccent">#FA7298</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorPlayBarGray">#F0F4F3</color>
     <color name="colorLightGrayHalfAlpha">#30D3D3D3</color>
     <color name="colorLightGray">#D3D3D3</color>
     <color name="colorDarkBackground">#404040</color>
-    <color name="colorDivider">#50D3D3D3</color>
+    <color name="colorDividerGray">#50CACACA</color>
     <color name="colorRed">#ff0000</color>
     <color name="colorGreen">#00ff00</color>
     <color name="colorBlue">#0000ff</color>
@@ -26,4 +27,42 @@
     <color name="grey800">#ff424242</color>
     <color name="grey900">#ff282828</color>
     <color name="bg_album">#ECECEC</color>
+
+
+    <!--主题颜色-->
+
+    <!--酷安绿-->
+    <color name="kuanGreen">#4BAF4F</color>
+    <color name="kuanGreen50">#904BAF4F</color>
+    <!--知乎蓝-->
+    <color name="zhihuBlue">#1F96F2</color>
+    <color name="zhihuBlue50">#901F96F2</color>
+    <!--哔哩粉-->
+    <color name="biliPink">#FA7298</color>
+    <color name="biliPink50">#90FA7298</color>
+    <!--网易红-->
+    <color name="cloudRed">#D33B30</color>
+    <color name="cloudRed50">#90D33B30</color>
+    <!--藤萝紫-->
+    <color name="tengluoPurple">#B47DB4</color>
+    <color name="tengluoPurple50">#90B47DB4</color>
+    <!--碧海蓝-->
+    <color name="seaBlue">#59b7c3</color>
+    <color name="seaBlue50">#9059b7c3</color>
+    <!--樱草绿-->
+    <color name="grassGreen">#89c348</color>
+    <color name="grassGreen50">#9089c348</color>
+    <!--咖啡棕-->
+    <color name="coffeeBrown">#75655a</color>
+    <color name="coffeeBrown50">#9075655a</color>
+    <!--柠檬橙-->
+    <color name="lemonOrange">#D88101</color>
+    <color name="lemonOrange50">#90D88101</color>
+    <!--星空灰-->
+    <color name="startSkyGray">#374f59</color>
+    <color name="startSkyGray50">#90374f59</color>
+    <!--夜间模式-->
+    <color name="nightActionbar">#3b3b3b</color>
+    <color name="nightBg">#2c2c2c</color>
+
 </resources>

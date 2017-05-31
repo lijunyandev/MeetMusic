@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_theme"
+            android:icon="@drawable/nav_theme"
+            android:title="主题中心" />
+        <item
+            android:id="@+id/nav_night_mode"
+            android:icon="@drawable/nav_night"
+            android:title="夜间模式" />
+        <item
+            android:id="@+id/nav_about_me"
+            android:icon="@drawable/nav_about"
+            android:title="关于我" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/nav_logout"
+            android:title="退出" />
+    </group>
+</menu>

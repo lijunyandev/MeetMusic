@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="500dp">
+    android:layout_height="500dp"
+    android:background="?attr/appbg">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -12,7 +13,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/colorDivider"></View>
+        android:background="@color/colorDividerGray"></View>
     <LinearLayout
         android:id="@+id/pop_add_playlist_ll"
         android:layout_width="match_parent"
@@ -36,7 +37,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/colorDivider"></View>
+        android:background="@color/colorDividerGray"></View>
     <ListView
         android:id="@+id/pop_add_pl_lv"
         android:layout_width="match_parent"

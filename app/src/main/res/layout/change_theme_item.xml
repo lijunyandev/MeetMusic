@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/theme_item_rl"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:clickable="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_centerVertical="true"
+        android:id="@+id/theme_iv"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@null"
+        app:riv_corner_radius="10dip"
+        app:riv_mutate_background="true"
+        app:riv_oval="true"
+        android:background="@color/colorAccent" />
+    <TextView
+        android:id="@+id/theme_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/theme_iv"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"
+        android:textColor="@color/grey900"
+        android:gravity="center"/>
+    <Button
+        android:id="@+id/theme_select_tv"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:text="使用"
+        android:textColor="@color/grey500"
+        android:textSize="14sp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/shape_theme_btn"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/colorDividerGray"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

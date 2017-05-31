@@ -47,7 +47,7 @@ import java.util.List;
 * 
 * */
 
-public class LastMyloveActivity extends BaseActivity {
+public class LastMyloveActivity extends PlayBarBaseActivity {
 
     private static final String TAG = LocalMusicActivity.class.getName();
     private Toolbar toolbar;

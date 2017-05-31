@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lijunyan.blackmusic.R;
@@ -35,7 +36,7 @@ public class PlayingPopWindow extends PopupWindow{
 //    private ImageView playModeIv;
     private TextView countTv;
 //    private TextView playModeTv;
-    private TextView closeTv;
+    private RelativeLayout closeRv;
     private RecyclerView recyclerView;
     private Adapter adapter;
     private List<MusicInfo> musicInfoList;
@@ -89,7 +90,7 @@ public class PlayingPopWindow extends PopupWindow{
 
 //        playModeIv = (ImageView)view.findViewById(R.id.playing_list_playmode_iv);
 //        playModeTv = (TextView) view.findViewById(R.id.playing_list_playmode_Tv);
-        closeTv = (TextView) view.findViewById(R.id.playing_list_close_tv);
+        closeRv = (RelativeLayout) view.findViewById(R.id.playing_list_close_rv);
         countTv = (TextView)view.findViewById(R.id.playing_list_count_tv);
         countTv.setText("("+musicInfoList.size()+")");
 
@@ -102,7 +103,7 @@ public class PlayingPopWindow extends PopupWindow{
 //            }
 //        });
 
-        closeTv.setOnClickListener(new View.OnClickListener() {
+        closeRv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();

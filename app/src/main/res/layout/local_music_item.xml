@@ -10,10 +10,9 @@
         android:id="@+id/indext_head_tv"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:background="@color/grey200"
+        android:background="?attr/divider"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textColor="@color/grey500"
         android:textSize="15sp"
         android:visibility="gone" />
 
@@ -38,7 +37,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="1"
-                android:textColor="@color/colorAccent" />
+                android:textColor="?attr/appbg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,7 +66,7 @@
                             android:maxLines="1"
                             android:text="music name "
                             android:textSize="15sp"
-                            android:textColor="@color/colorAccent" />
+                            android:textColor="?attr/appbg" />
 
                         <TextView
                             android:id="@+id/local_music_singer"
@@ -79,7 +78,7 @@
                             android:ellipsize="end"
                             android:text="singer name "
                             android:textSize="12sp"
-                            android:textColor="@color/colorAccent" />
+                            android:textColor="?attr/appbg" />
 
                     </LinearLayout>
 
@@ -98,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_weight="0"
-                    android:background="@color/colorDivider"></View>
+                    android:background="?attr/divider"></View>
             </LinearLayout>
         </LinearLayout>
 

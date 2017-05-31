@@ -10,7 +10,7 @@
         android:id="@+id/local_music_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     <TextView
         android:id="@+id/local_nothing_tv"
@@ -21,7 +21,7 @@
         android:layout_marginLeft="100dp"
         android:layout_marginRight="100dp"
         android:clickable="true"
-        android:textColor="@color/colorAccent"
+        android:textColor="?attr/appbg"
         android:textSize="18sp"
         android:maxLines="2"
         android:text="暂时没有歌曲哦，点击我可以扫描本地歌曲!!!"
@@ -31,7 +31,7 @@
         android:id="@+id/local_tab"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/colorAccent"
+        android:background="?attr/colorPrimary"
         app:tabIndicatorColor="@color/colorWhite"
         app:tabSelectedTextColor="@color/colorWhite"
         android:layout_below="@id/local_music_toolbar"
@@ -40,7 +40,7 @@
     <View
         android:id="@+id/local_shadow"
         android:layout_width="match_parent"
-        android:layout_height="3dp"
+        android:layout_height="2dp"
         android:background="@drawable/shadow_view"
         android:layout_below="@id/local_tab"></View>
 
@@ -50,7 +50,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/local_shadow"
         android:layout_above="@id/fragment_playbar"
-        android:background="#ffffff" />
+        android:background="?attr/appbg" />
     <FrameLayout
         android:id="@+id/fragment_playbar"
         android:layout_width="match_parent"

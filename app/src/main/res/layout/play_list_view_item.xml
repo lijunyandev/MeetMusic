@@ -40,7 +40,6 @@
                 android:gravity="bottom"
                 android:maxLines="1"
                 android:text="我的歌单"
-                android:textColor="@color/grey900"
                 android:textSize="15sp" />
 
             <TextView

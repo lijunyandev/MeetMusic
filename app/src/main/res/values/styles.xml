@@ -1,15 +1,15 @@
 <resources>
 
     <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-    <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--&lt;!&ndash; Customize your nav_theme here. &ndash;&gt;-->
     <!--<item name="colorPrimary">@color/colorPrimary</item>-->
     <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
     <!--<item name="colorAccent">@color/colorAccent</item>-->
 <!--</style>-->
 
-     <!--Base application theme. -->
+     <!--Base application nav_theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Customize your nav_theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

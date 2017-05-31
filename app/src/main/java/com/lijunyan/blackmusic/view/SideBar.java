@@ -1,6 +1,7 @@
 package com.lijunyan.blackmusic.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import com.lijunyan.blackmusic.R;
 
 /**
  * Created by lijunyan on 2017/2/20.
@@ -25,7 +28,7 @@ public class SideBar extends View{
     public static String[] sections = { "A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
             "W", "X", "Y", "Z", "#" };
-
+    private Context context;
     private int selected = -1;
     private int oldChoose;
     private Paint indexPaint = new Paint();
@@ -39,26 +42,38 @@ public class SideBar extends View{
     private float singleHeight;
     private float curY = 0; //当前y坐标
     private TextView mTextDialog;//显示索引放大的预览View
+    private int accentColor;
 
     public SideBar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
         init();
     }
 
     public SideBar(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         init();
     }
 
     public SideBar(Context context) {
         super(context);
+        this.context = context;
         init();
     }
 
     private void init(){
 
         //设置画预览圆形的画笔
-        circlePaint.setColor(Color.parseColor("#FA7298"));
+        //获取主题颜色
+        int defaultColor = 0xFFFA7298;
+        int[] attrsArray = {R.attr.colorAccent  };
+        TypedArray typedArray = context.obtainStyledAttributes(attrsArray);
+        accentColor = typedArray.getColor(0, defaultColor);
+        typedArray.recycle();
+
+
+        circlePaint.setColor(accentColor);
         circlePaint.setAntiAlias(true);
         circlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         radius = dp2px(30);
@@ -103,7 +118,7 @@ public class SideBar extends View{
 
             // 选中的状态
             if (i == selected) {
-                indexPaint.setColor(Color.parseColor("#FA7298"));
+                indexPaint.setColor(accentColor);
                 indexPaint.setFakeBoldText(true);//字体加粗
 
                 Rect rect = new Rect();

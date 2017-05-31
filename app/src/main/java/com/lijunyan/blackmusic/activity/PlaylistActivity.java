@@ -15,10 +15,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.lijunyan.blackmusic.R;
 import com.lijunyan.blackmusic.adapter.PlaylistAdapter;
 import com.lijunyan.blackmusic.database.DBManager;
@@ -33,7 +35,7 @@ import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
 import java.util.List;
 
-public class PlaylistActivity extends BaseActivity {
+public class PlaylistActivity extends PlayBarBaseActivity {
 
     private static final String TAG = "PlaylistActivity";
     private RecyclerView recyclerView;
@@ -42,6 +44,7 @@ public class PlaylistActivity extends BaseActivity {
     private PlayListInfo playListInfo;
     private Toolbar toolbar;
     private TextView noneTv;//没有歌单时现实的TextView
+    private ImageView bgIv;
     private DBManager dbManager;
     private UpdateReceiver mReceiver;
 
@@ -49,6 +52,7 @@ public class PlaylistActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist);
+        loadBingPic();
         playListInfo = getIntent().getParcelableExtra("playlistInfo");
         toolbar = (Toolbar) findViewById(R.id.activity_playlist_toolbar);
         setSupportActionBar(toolbar);
@@ -211,6 +215,20 @@ public class PlaylistActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             playlistAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void loadBingPic(){
+        try {
+            bgIv = (ImageView) findViewById(R.id.playlist_head_bg_iv);
+            String bingPic = MyMusicUtil.getBingShared();
+            if (bingPic != null) {
+                Glide.with(this).load(bingPic).into(bgIv);
+            } else {
+                bgIv.setImageResource(R.drawable.bg_playlist);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

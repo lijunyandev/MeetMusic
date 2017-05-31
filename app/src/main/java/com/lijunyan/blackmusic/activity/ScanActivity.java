@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -31,7 +30,7 @@ import java.util.List;
 /**
  * 考虑本地没有歌曲的情况（待处理）
  */
-public class ScanActivity extends AppCompatActivity {
+public class ScanActivity extends BaseActivity {
 
     private static final String TAG = ScanActivity.class.getName();
     private DBManager dbManager;

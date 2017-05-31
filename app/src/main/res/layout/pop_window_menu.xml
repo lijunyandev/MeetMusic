@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
+    android:background="?attr/appbg"
     android:orientation="vertical">
 
     <TextView
@@ -16,7 +16,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/colorDivider"></View>
+        android:background="@color/colorDividerGray"></View>
 
     <!--<LinearLayout-->
         <!--android:id="@+id/popwin_play_ll"-->
@@ -77,6 +77,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
+            android:tint="?attr/image_tint"
             android:src="@drawable/phone" />
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,7 +95,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/grey200"></View>
+                android:background="?attr/divider"></View>
         </LinearLayout>
     </LinearLayout>
 
@@ -116,6 +117,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
+            android:tint="?attr/image_tint"
             android:src="@drawable/love" />
 
         <LinearLayout
@@ -134,7 +136,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/grey200"></View>
+                android:background="?attr/divider"></View>
         </LinearLayout>
     </LinearLayout>
 
@@ -175,7 +177,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/grey200"></View>
+                android:background="?attr/divider"></View>
         </LinearLayout>
     </LinearLayout>
 
@@ -197,6 +199,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
+            android:tint="?attr/image_tint"
             android:src="@drawable/delete" />
 
         <LinearLayout
@@ -215,7 +218,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/grey200"></View>
+                android:background="?attr/divider"></View>
         </LinearLayout>
     </LinearLayout>
 
@@ -238,6 +241,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
+            android:tint="?attr/image_tint"
             android:src="@drawable/cancel" />
 
         <LinearLayout
@@ -256,7 +260,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/grey200"></View>
+                android:background="?attr/divider"></View>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

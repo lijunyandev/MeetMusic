@@ -10,12 +10,13 @@
         android:id="@+id/scan_music_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
     <com.lijunyan.blackmusic.view.ScanView
         android:id="@+id/scan_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:accent_color="?attr/colorAccent"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp">
     </com.lijunyan.blackmusic.view.ScanView>
@@ -26,6 +27,7 @@
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/scan_view">
         <CheckBox
             android:id="@+id/scan_filter_cb"
@@ -41,7 +43,9 @@
         android:id="@+id/scan_progress"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:visibility="gone"
         android:layout_below="@id/scan_filter_ll"/>
 
     <TextView
@@ -49,7 +53,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/scan_progress"
-        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:maxLines="1"
         android:ellipsize="start"
         android:layout_centerHorizontal="true"/>
@@ -60,14 +66,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/scan_path"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
         android:maxLines="1"
         android:ellipsize="end"/>
     <Button
         android:id="@+id/start_scan_btn"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/selector_scan_btn"
+        android:textColor="@color/colorWhite"
         android:text="开始扫描"/>
 </RelativeLayout>

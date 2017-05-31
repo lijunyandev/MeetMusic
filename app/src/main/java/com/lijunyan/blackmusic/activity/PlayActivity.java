@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -30,7 +29,7 @@ import com.lijunyan.blackmusic.view.PlayingPopWindow;
 
 import java.util.Locale;
 
-public class PlayActivity extends AppCompatActivity implements View.OnClickListener {
+public class PlayActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = PlayActivity.class.getName();
 

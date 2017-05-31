@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.lijunyan.blackmusic.R;
+import com.lijunyan.blackmusic.activity.ThemeActivity;
 import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.AlbumInfo;
 import com.lijunyan.blackmusic.entity.FolderInfo;
@@ -30,7 +32,6 @@ import java.util.Map;
 public class MyMusicUtil {
 
     private static final String TAG = MyMusicUtil.class.getName();
-
     //获取当前播放列表
     public static List<MusicInfo> getCurPlayList(Context context){
         DBManager dbManager = DBManager.getInstance(context);
@@ -288,5 +289,87 @@ public class MyMusicUtil {
 
         return folderInfoList;
     }
+
+    //设置主题
+    public static void setTheme(Context context, int position) {
+        int preSelect = getTheme(context);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.THEME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putInt("theme_select", position).commit();
+        if (preSelect != ThemeActivity.THEME_SIZE - 1) {
+            sharedPreferences.edit().putInt("pre_theme_select", preSelect).commit();
+        }
+    }
+
+
+    //得到主题
+    public static int getTheme(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.THEME, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("theme_select", 0);
+    }
+
+    //得到上一次选择的主题，用于取消夜间模式时恢复用
+    public static int getPreTheme(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.THEME, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("pre_theme_select", 0);
+    }
+
+    //设置夜间模式
+    public static void setNightMode(Context context, boolean mode) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.THEME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor =  sharedPreferences.edit();
+        editor.putBoolean("night", mode).commit();
+    }
+
+    //得到是否夜间模式
+    public static boolean getNightMode(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constant.THEME, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("night",false);
+    }
+
+    //得到主题
+    public static int getMyThemeStyle(Context context) {
+        int themeId = MyMusicUtil.getTheme(context);
+        switch (themeId){
+            default:
+            case 0:
+                return R.style.BiLiPinkTheme;
+            case 1:
+                return R.style.ZhiHuBlueTheme;
+            case 2:
+                return R.style.KuAnGreenTheme;
+            case 3:
+                return R.style.CloudRedTheme;
+            case 4:
+                return R.style.TengLuoPurpleTheme;
+            case 5:
+                return R.style.SeaBlueTheme;
+            case 6:
+                return R.style.GrassGreenTheme;
+            case 7:
+                return R.style.CoffeeBrownTheme;
+            case 8:
+                return R.style.LemonOrangeTheme;
+            case 9:
+                return R.style.StartSkyGrayTheme;
+            case 10:
+                return R.style.NightModeTheme;
+        }
+    }
+
+    // 设置必用图片 sharedPreferences
+    public static void setBingShared(String value){
+        SharedPreferences pref = MyApplication.getContext().getSharedPreferences("bing_pic",MyApplication.getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("pic", value);
+        editor.commit();
+    }
+
+    // 获取必用图片 sharedPreferences
+    public static String getBingShared() {
+        SharedPreferences pref = MyApplication.getContext().getSharedPreferences("bing_pic", MyApplication.getContext().MODE_PRIVATE);
+        String value = pref.getString("pic",null);
+        return value;
+    }
+
 
 }

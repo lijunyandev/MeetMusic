@@ -74,7 +74,7 @@ public class SingerFragment extends Fragment {
                 Log.d(TAG, "onContentClick: ");
                 Intent intent = new Intent(mContext,ModelActivity.class);
                 intent.putExtra(ModelActivity.KEY_TITLE,singerInfoList.get(position).getName());
-                intent.putExtra(ModelActivity.KEY_TYPE,ModelActivity.SINGER_TYPE);
+                intent.putExtra(ModelActivity.KEY_TYPE, ModelActivity.SINGER_TYPE);
                 mContext.startActivity(intent);
             }
         });

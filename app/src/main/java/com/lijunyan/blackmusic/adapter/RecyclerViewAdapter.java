@@ -2,6 +2,7 @@ package com.lijunyan.blackmusic.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -112,10 +113,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.musicName.setText(musicInfo.getName());
         holder.musicIndex.setText("" + (position + 1));
         holder.musicSinger.setText(musicInfo.getSinger());
+
+        //获取主题颜色
+        int defaultColor = 0xFFFA7298;
+        int[] attrsArray = {R.attr.colorAccent };
+        TypedArray typedArray = context.obtainStyledAttributes(attrsArray);
+        int appbg = typedArray.getColor(0, defaultColor);
+        typedArray.recycle();
+
         if (musicInfo.getId() == MyMusicUtil.getIntShared(Constant.KEY_ID)){
-            holder.musicName.setTextColor(context.getResources().getColor(R.color.colorAccent));
-            holder.musicIndex.setTextColor(context.getResources().getColor(R.color.colorAccent));
-            holder.musicSinger.setTextColor(context.getResources().getColor(R.color.colorAccent));
+            holder.musicName.setTextColor(appbg);
+            holder.musicIndex.setTextColor(appbg);
+            holder.musicSinger.setTextColor(appbg);
         }else {
             holder.musicName.setTextColor(context.getResources().getColor(R.color.grey700));
             holder.musicIndex.setTextColor(context.getResources().getColor(R.color.grey700));

@@ -3,6 +3,7 @@ package com.lijunyan.blackmusic.util;
 
 
 public class Constant {
+
 	//service名
 	public static final String SERVICE_NAME = "com.example.vinyl.service.MediaPlayerService";//服务的名称为包名+类名
 	//播放状态
@@ -113,4 +114,8 @@ public class Constant {
 	public static final String WIDGET_PLAY="android.appwidget.WIDGET_PLAY";
 	public static final String WIDGET_NEXT="android.appwidget.WIDGET_NEXT";
 	public static final String WIDGET_PREVIOUS="android.appwidget.WIDGET_PREVIOUS";
+
+
+	//主题
+	public static final String THEME="theme";
 }

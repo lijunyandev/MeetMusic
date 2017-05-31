@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -51,9 +52,17 @@ public class PlayBarFragment extends Fragment {
     private HomeReceiver mReceiver;
     private DBManager dbManager;
     private View view;
+    private Context context;
+
 
     public static synchronized PlayBarFragment newInstance(){
         return new PlayBarFragment();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
     @Override
@@ -78,6 +87,7 @@ public class PlayBarFragment extends Fragment {
 
         setMusicName();
         initPlayIv();
+        setFragmentBb();
         playBarLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,6 +189,16 @@ public class PlayBarFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         unRegister();
+    }
+
+    public void setFragmentBb(){
+        //获取播放控制栏颜色
+        int defaultColor = 0xFFFFFF;
+        int[] attrsArray = {R.attr.play_bar_color };
+        TypedArray typedArray = context.obtainStyledAttributes(attrsArray);
+        int color = typedArray.getColor(0, defaultColor);
+        typedArray.recycle();
+        playBarLl.setBackgroundColor(color);
     }
 
     private void register() {

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -24,11 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HomeActivity"
+        <activity
+            android:name=".activity.HomeActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ScanActivity"
             android:label="@string/scan_music"
@@ -64,9 +64,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/PlaylistActivityTheme" />
         <activity
-            android:name=".activity.BaseActivity"
+            android:name=".activity.ModelActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ModelActivity" />
+        <activity
+            android:name=".activity.ThemeActivity"
+            android:label="@string/theme_center"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

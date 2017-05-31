@@ -69,7 +69,7 @@ public class AlbumFragment extends Fragment {
             public void onContentClick(View content, int position) {
                 Intent intent = new Intent(mContext,ModelActivity.class);
                 intent.putExtra(ModelActivity.KEY_TITLE,albumInfoList.get(position).getName());
-                intent.putExtra(ModelActivity.KEY_TYPE,ModelActivity.ALBUM_TYPE);
+                intent.putExtra(ModelActivity.KEY_TYPE, ModelActivity.ALBUM_TYPE);
                 mContext.startActivity(intent);
             }
         });

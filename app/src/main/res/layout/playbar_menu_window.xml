@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="?attr/appbg">
 
-    <TextView
-        android:id="@+id/playing_list_close_tv"
+    <RelativeLayout
+        android:id="@+id/playing_list_close_rv"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
@@ -13,10 +13,16 @@
         android:paddingRight="16dp"
         android:clickable="true"
         android:gravity="center"
-        android:text="关闭"
-        android:textColor="@drawable/selector_textview"
-        android:textSize="16sp" />
-
+        android:background="@drawable/selector_layout">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:gravity="center"
+            android:text="关闭"
+            android:textSize="16sp" />
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/playing_list_ll"
         android:layout_width="match_parent"
@@ -38,7 +44,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="播放列表"
-                android:textColor="@color/grey900"
                 android:textSize="16sp" />
 
             <TextView
@@ -73,17 +78,18 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/colorDivider"/>
+            android:background="@color/colorDividerGray"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/playing_list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:layout_below="@+id/playing_list_ll"
-        android:layout_above="@id/playing_list_close_tv"
+        android:layout_above="@id/playing_list_close_rv"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>

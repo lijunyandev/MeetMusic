@@ -1,29 +1,145 @@
 <resources>
 
     <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-    <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--&lt;!&ndash; Customize your nav_theme here. &ndash;&gt;-->
     <!--<item name="colorPrimary">@color/colorPrimary</item>-->
     <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
     <!--<item name="colorAccent">@color/colorAccent</item>-->
 <!--</style>-->
 
-     <!--Base application theme. -->
+     <!--Base application nav_theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Customize your nav_theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColor">@android:color/black</item>
         <item name="android:listDivider">@drawable/divider_bg</item>
-        <item name="android:windowAnimationStyle">@style/noAnimation</item>
+        <!--<item name="android:windowAnimationStyle">@style/noAnimation</item>-->
         <item name="android:screenOrientation">portrait</item>
         <item name="android:windowSoftInputMode">adjustPan|stateHidden</item>
+        <item name="appbg">@android:color/white</item>
+        <item name="layout_press">@color/grey200</item>
+        <item name="divider">@color/colorDividerGray</item>
+        <item name="android:windowAnimationStyle">@style/Animation</item>
+        <item name="play_bar_color">@android:color/white</item>
     </style>
 
     <style name="PlaylistActivityTheme" parent="AppTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="BiLiPinkTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/biliPink</item>
+        <item name="colorPrimaryDark">@color/biliPink</item>
+        <item name="colorAccent">@color/biliPink</item>
+        <item name="image_tint">@color/biliPink</item>
+        <item name="press_color">@color/biliPink50</item>
+    </style>
+    <style name="KuAnGreenTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/kuanGreen</item>
+        <item name="colorPrimaryDark">@color/kuanGreen</item>
+        <item name="colorAccent">@color/kuanGreen</item>
+        <item name="image_tint">@color/kuanGreen</item>
+        <item name="press_color">@color/kuanGreen50</item>
+    </style>
+    <style name="ZhiHuBlueTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/zhihuBlue</item>
+        <item name="colorPrimaryDark">@color/zhihuBlue</item>
+        <item name="colorAccent">@color/zhihuBlue</item>
+        <item name="image_tint">@color/zhihuBlue</item>
+        <item name="press_color">@color/zhihuBlue50</item>
+    </style>
+    <style name="CloudRedTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/cloudRed</item>
+        <item name="colorPrimaryDark">@color/cloudRed</item>
+        <item name="colorAccent">@color/cloudRed</item>
+        <item name="image_tint">@color/cloudRed</item>
+        <item name="press_color">@color/cloudRed50</item>
+    </style>
+    <style name="TengLuoPurpleTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/tengluoPurple</item>
+        <item name="colorPrimaryDark">@color/tengluoPurple</item>
+        <item name="colorAccent">@color/tengluoPurple</item>
+        <item name="image_tint">@color/tengluoPurple</item>
+        <item name="press_color">@color/tengluoPurple50</item>
+    </style>
+    <style name="SeaBlueTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/seaBlue</item>
+        <item name="colorPrimaryDark">@color/seaBlue</item>
+        <item name="colorAccent">@color/seaBlue</item>
+        <item name="image_tint">@color/seaBlue</item>
+        <item name="press_color">@color/seaBlue50</item>
+    </style>
+    <style name="GrassGreenTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/grassGreen</item>
+        <item name="colorPrimaryDark">@color/grassGreen</item>
+        <item name="colorAccent">@color/grassGreen</item>
+        <item name="image_tint">@color/grassGreen</item>
+        <item name="press_color">@color/grassGreen50</item>
+    </style>
+    <style name="CoffeeBrownTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/coffeeBrown</item>
+        <item name="colorPrimaryDark">@color/coffeeBrown</item>
+        <item name="colorAccent">@color/coffeeBrown</item>
+        <item name="image_tint">@color/coffeeBrown</item>
+        <item name="press_color">@color/coffeeBrown50</item>
+    </style>
+    <style name="LemonOrangeTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/lemonOrange</item>
+        <item name="colorPrimaryDark">@color/lemonOrange</item>
+        <item name="colorAccent">@color/lemonOrange</item>
+        <item name="image_tint">@color/lemonOrange</item>
+        <item name="press_color">@color/lemonOrange50</item>
+    </style>
+    <style name="StartSkyGrayTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/startSkyGray</item>
+        <item name="colorPrimaryDark">@color/startSkyGray</item>
+        <item name="colorAccent">@color/startSkyGray</item>
+        <item name="image_tint">@color/startSkyGray</item>
+        <item name="press_color">@color/startSkyGray50</item>
+    </style>
+    <!--<style name="NightModeTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+    <style name="NightModeTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/nightActionbar</item>
+        <item name="colorPrimaryDark">@color/nightActionbar</item>
+        <item name="colorAccent">@color/biliPink</item>
+        <item name="image_tint">@android:color/white</item>
+        <item name="appbg">@color/nightBg</item>
+        <item name="divider">@color/nightActionbar</item>
+        <item name="press_color">@color/biliPink50</item>
+        <item name="layout_press">@color/nightActionbar</item>
+        <item name="play_bar_color">@color/nightActionbar</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:windowBackground">@color/nightBg</item>
+        <item name="android:listDivider">@drawable/divider_bg</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowSoftInputMode">adjustPan|stateHidden</item>
+        <item name="android:windowAnimationStyle">@style/Animation</item>
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert.Self</item>
+    </style>
+
+    <style name="Theme.AppCompat.Light.Dialog.Alert.Self"
+        parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/nightBg</item>
+        <item name="colorAccent">@android:color/white</item>
+    </style>
+
+
+    <style name="Animation">
+        <item name="android:activityOpenEnterAnimation">@null</item>
+        <item name="android:activityOpenExitAnimation">@null</item>
+        <item name="android:activityCloseEnterAnimation">@null</item>
+        <item name="android:activityCloseExitAnimation">@null</item>
+        <item name="android:taskOpenEnterAnimation">@null</item>
+        <item name="android:taskOpenExitAnimation">@null</item>
+        <item name="android:taskCloseEnterAnimation">@null</item>
+        <item name="android:taskCloseExitAnimation">@null</item>
+        <item name="android:taskToFrontEnterAnimation">@null</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@null</item>
+    </style>
+
 
 </resources>
