@@ -14,6 +14,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:textSize="15sp"
+        android:textColor="@color/grey700"
         android:visibility="gone" />
 
     <com.mcxtzhang.swipemenulib.SwipeMenuLayout
@@ -65,8 +66,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="music name "
-                            android:textSize="15sp"
-                            android:textColor="?attr/appbg" />
+                            android:textSize="15sp"/>
 
                         <TextView
                             android:id="@+id/local_music_singer"
@@ -78,7 +78,7 @@
                             android:ellipsize="end"
                             android:text="singer name "
                             android:textSize="12sp"
-                            android:textColor="?attr/appbg" />
+                            android:textColor="@color/grey700" />
 
                     </LinearLayout>
 

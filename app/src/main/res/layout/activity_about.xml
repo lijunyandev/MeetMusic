@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lijunyan.blackmusic.activity.AboutActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/about_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/about_version"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="当前版本1.0" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="?attr/divider"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="关于作者" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|bottom"
+                android:paddingBottom="3dp"
+                android:paddingLeft="20dp"
+                android:text="邮箱"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|top"
+                android:paddingLeft="20dp"
+                android:paddingTop="3dp"
+                android:text="819471217@qq.com" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|bottom"
+                android:paddingBottom="3dp"
+                android:paddingLeft="20dp"
+                android:text="Github" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|top"
+                android:paddingLeft="20dp"
+                android:paddingTop="3dp"
+                android:text="https://github.com/lijunyandev" />
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="?attr/divider"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="其他" />
+
+        <LinearLayout
+            android:id="@+id/about_start_ll"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:clickable="true"
+            android:background="@drawable/selector_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|bottom"
+                android:paddingBottom="3dp"
+                android:paddingLeft="20dp"
+                android:text="给我点赞"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|top"
+                android:paddingLeft="20dp"
+                android:paddingTop="3dp"
+                android:text="前往我的github项目给个start" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/about_score_ll"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:clickable="true"
+            android:background="@drawable/selector_layout"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|bottom"
+                android:paddingBottom="3dp"
+                android:paddingLeft="20dp"
+                android:text="给个评价" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical|top"
+                android:paddingLeft="20dp"
+                android:paddingTop="3dp"
+                android:text="前往应用商店评价或评分" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

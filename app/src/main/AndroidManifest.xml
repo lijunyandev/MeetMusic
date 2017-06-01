@@ -72,6 +72,8 @@
             android:label="@string/theme_center"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.AboutActivity"
+            android:label="@string/about"></activity>
     </application>
 
 </manifest>

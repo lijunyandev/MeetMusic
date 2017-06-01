@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -388,15 +389,29 @@ public class ModelActivity extends PlayBarBaseActivity {
             holder.musicName.setText(musicInfo.getName());
             holder.musicIndex.setText("" + (position + 1));
             holder.musicSinger.setText(musicInfo.getSinger());
-            if (musicInfo.getId() == MyMusicUtil.getIntShared(Constant.KEY_ID)) {
-                holder.musicName.setTextColor(getResources().getColor(R.color.colorAccent));
-                holder.musicIndex.setTextColor(getResources().getColor(R.color.colorAccent));
-                holder.musicSinger.setTextColor(getResources().getColor(R.color.colorAccent));
-            } else {
-                holder.musicName.setTextColor(getResources().getColor(R.color.grey700));
+
+            //获取主题颜色
+            int defaultColor = 0xFFFA7298;
+            int[] attrsArray = {R.attr.colorAccent};
+            TypedArray typedArray = obtainStyledAttributes(attrsArray);
+            int appbg = typedArray.getColor(0, defaultColor);
+            typedArray.recycle();
+
+            int[] attrs = {R.attr.text_color};
+            TypedArray typed = obtainStyledAttributes(attrs);
+            int defaultTvColor = typed.getColor(0, getResources().getColor(R.color.grey700));
+            typedArray.recycle();
+
+            if (musicInfo.getId() == MyMusicUtil.getIntShared(Constant.KEY_ID)){
+                holder.musicName.setTextColor(appbg);
+                holder.musicIndex.setTextColor(appbg);
+                holder.musicSinger.setTextColor(appbg);
+            }else {
+                holder.musicName.setTextColor(defaultTvColor);
                 holder.musicIndex.setTextColor(getResources().getColor(R.color.grey700));
                 holder.musicSinger.setTextColor(getResources().getColor(R.color.grey700));
             }
+
             int section = getSectionForPosition(position);
             int firstPosition = getPositionForSection(section);
             Log.i(TAG, "onBindViewHolder: section = " + section + "  firstPosition = " + firstPosition);

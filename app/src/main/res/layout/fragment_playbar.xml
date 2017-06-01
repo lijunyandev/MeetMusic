@@ -53,7 +53,6 @@
                     android:gravity="bottom"
                     android:maxLines="1"
                     android:text="歌名aaaaaaaaaaaaaaaaaa"
-                    android:textColor="@color/grey700"
                     android:textSize="15sp" />
 
                 <TextView

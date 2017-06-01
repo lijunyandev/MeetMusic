@@ -116,9 +116,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         //获取主题颜色
         int defaultColor = 0xFFFA7298;
-        int[] attrsArray = {R.attr.colorAccent };
+        int[] attrsArray = {R.attr.colorAccent};
         TypedArray typedArray = context.obtainStyledAttributes(attrsArray);
         int appbg = typedArray.getColor(0, defaultColor);
+        typedArray.recycle();
+
+        int[] attrs = {R.attr.text_color};
+        TypedArray typed = context.obtainStyledAttributes(attrs);
+        int defaultTvColor = typed.getColor(0, context.getResources().getColor(R.color.grey700));
         typedArray.recycle();
 
         if (musicInfo.getId() == MyMusicUtil.getIntShared(Constant.KEY_ID)){
@@ -126,7 +131,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.musicIndex.setTextColor(appbg);
             holder.musicSinger.setTextColor(appbg);
         }else {
-            holder.musicName.setTextColor(context.getResources().getColor(R.color.grey700));
+            holder.musicName.setTextColor(defaultTvColor);
             holder.musicIndex.setTextColor(context.getResources().getColor(R.color.grey700));
             holder.musicSinger.setTextColor(context.getResources().getColor(R.color.grey700));
         }

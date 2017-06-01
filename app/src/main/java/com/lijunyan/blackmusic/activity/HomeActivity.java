@@ -30,6 +30,7 @@ import com.lijunyan.blackmusic.entity.PlayListInfo;
 import com.lijunyan.blackmusic.service.MusicPlayerService;
 import com.lijunyan.blackmusic.util.Constant;
 import com.lijunyan.blackmusic.util.HttpUtil;
+import com.lijunyan.blackmusic.util.MyApplication;
 import com.lijunyan.blackmusic.util.MyMusicUtil;
 
 import java.io.IOException;
@@ -44,6 +45,7 @@ public class HomeActivity extends PlayBarBaseActivity {
     private static final String TAG = HomeActivity.class.getName();
     private DBManager dbManager;
     private DrawerLayout mDrawerLayout;
+    private NavigationView navView;
     private ImageView navHeadIv;
     private LinearLayout localMusicLl;
     private LinearLayout lastPlayLl;
@@ -72,7 +74,7 @@ public class HomeActivity extends PlayBarBaseActivity {
         toolbar = (Toolbar)findViewById(R.id.home_activity_toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        navView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navView.getHeaderView(0);
         navHeadIv = (ImageView)headerView.findViewById(R.id.nav_head_bg_iv);
         loadBingPic();
@@ -81,6 +83,7 @@ public class HomeActivity extends PlayBarBaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.drawer_menu);
         }
+        refreshNightModeTitle();
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -107,9 +110,12 @@ public class HomeActivity extends PlayBarBaseActivity {
 //                        Intent intentNight = new Intent(HomeActivity.this,HomeActivity.class);
 //                        startActivity(intentNight);
                         recreate();
+                        refreshNightModeTitle();
 //                        overridePendingTransition(R.anim.start_anim,R.anim.out_anim);
                         break;
                     case R.id.nav_about_me:
+                        Intent aboutTheme = new Intent(HomeActivity.this,AboutActivity.class);
+                        startActivity(aboutTheme);
                         break;
                     case R.id.nav_logout:
                         finish();
@@ -128,6 +134,14 @@ public class HomeActivity extends PlayBarBaseActivity {
         Intent startIntent = new Intent(HomeActivity.this,MusicPlayerService.class);
         startService(startIntent);
 
+    }
+
+    private void refreshNightModeTitle(){
+        if (MyMusicUtil.getNightMode(HomeActivity.this)){
+            navView.getMenu().findItem(R.id.nav_night_mode).setTitle("日间模式");
+        }else {
+            navView.getMenu().findItem(R.id.nav_night_mode).setTitle("夜间模式");
+        }
     }
 
     @Override
@@ -296,7 +310,7 @@ public class HomeActivity extends PlayBarBaseActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Glide.with(HomeActivity.this).load(bingPic).into(navHeadIv);
+                            Glide.with(MyApplication.getContext()).load(bingPic).into(navHeadIv);
                         }
                     });
                 }catch (Exception e){

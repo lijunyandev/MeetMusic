@@ -18,6 +18,8 @@
         <!--<item name="android:windowAnimationStyle">@style/noAnimation</item>-->
         <item name="android:screenOrientation">portrait</item>
         <item name="android:windowSoftInputMode">adjustPan|stateHidden</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="text_color">@color/colorBlack</item>
         <item name="appbg">@android:color/white</item>
         <item name="layout_press">@color/grey200</item>
         <item name="divider">@color/colorDividerGray</item>
@@ -110,7 +112,8 @@
         <item name="press_color">@color/biliPink50</item>
         <item name="layout_press">@color/nightActionbar</item>
         <item name="play_bar_color">@color/nightActionbar</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="text_color">@color/colorWhite</item>
         <item name="android:windowBackground">@color/nightBg</item>
         <item name="android:listDivider">@drawable/divider_bg</item>
         <item name="android:screenOrientation">portrait</item>

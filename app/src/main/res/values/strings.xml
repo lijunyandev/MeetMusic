@@ -4,6 +4,9 @@
     <string name="last_play">最近播放</string>
     <string name="scan_music">扫描音乐</string>
     <string name="theme_center">主题中心</string>
+    <string name="about">关于</string>
+    <string name="version_name">当前版本 </string>
+    <string name="can_not_find_version_name">寻找当前版本出错</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

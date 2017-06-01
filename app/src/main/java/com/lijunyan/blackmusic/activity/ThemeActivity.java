@@ -151,7 +151,10 @@ public class ThemeActivity extends BaseActivity {
     private void refreshTheme(ThemeInfo themeInfo,int position){
         if (position == themeInfoList.size()){
             MyMusicUtil.setNightMode(ThemeActivity.this,true);
+        }else if(MyMusicUtil.getNightMode(ThemeActivity.this)){
+            MyMusicUtil.setNightMode(ThemeActivity.this,false);
         }
+        
         MyMusicUtil.setTheme(ThemeActivity.this,position);
         toolbar.setBackgroundColor(getResources().getColor(themeInfo.getColor()));
         recyclerView.setBackgroundColor(getResources().getColor(themeInfo.getBackgroung()));

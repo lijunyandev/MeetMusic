@@ -8,5 +8,6 @@
         <attr name="divider" format="reference"/>
         <attr name="image_tint" format="reference"/>
         <attr name="layout_press" format="reference"/>
+        <attr name="text_color" format="color"/>
     </declare-styleable>
 </resources>
