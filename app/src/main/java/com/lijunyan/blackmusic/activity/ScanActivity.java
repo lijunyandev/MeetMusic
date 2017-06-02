@@ -1,5 +1,6 @@
 package com.lijunyan.blackmusic.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,8 +19,10 @@ import android.widget.Toast;
 import com.lijunyan.blackmusic.R;
 import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.MusicInfo;
+import com.lijunyan.blackmusic.service.MusicPlayerService;
 import com.lijunyan.blackmusic.util.ChineseToEnglish;
 import com.lijunyan.blackmusic.util.Constant;
+import com.lijunyan.blackmusic.util.MyMusicUtil;
 import com.lijunyan.blackmusic.view.ScanView;
 
 import java.io.File;
@@ -47,6 +50,9 @@ public class ScanActivity extends BaseActivity {
     private int progress = 0;
     private int musicCount = 0;
     private boolean scanning = false;
+    private int curMusicId;
+    private String curMusicPath;
+    private List<MusicInfo> musicInfoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +104,7 @@ public class ScanActivity extends BaseActivity {
                         scanComplete();
                         break;
                     case Constant.SCAN_COMPLETE:
+                        initCurPlaying();
                         scanComplete();
                         break;
                     case Constant.SCAN_UPDATE:
@@ -141,7 +148,7 @@ public class ScanActivity extends BaseActivity {
                     Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                             muiscInfoArray, null, null, null);
                     if (cursor.getCount() != 0){
-                        List<MusicInfo> musicInfoList = new ArrayList<MusicInfo>();
+                        musicInfoList = new ArrayList<MusicInfo>();
                         Log.i(TAG, "run: cursor.getCount() = " + cursor.getCount());
                         while (cursor.moveToNext()) {
                             if (!scanning){
@@ -197,14 +204,19 @@ public class ScanActivity extends BaseActivity {
                             }
                         }
 
+                        //扫描完成获取一下当前播放音乐及路径
+                        curMusicId = MyMusicUtil.getIntShared(Constant.KEY_ID);
+                        curMusicPath = dbManager.getMusicPath(curMusicId);
+
+                        // 根据a-z进行排序源数据
+                        Collections.sort(musicInfoList);
+                        dbManager.updateAllMusic(musicInfoList);
+
                         //扫描完成
                         msg = new Message();
                         msg.what = Constant.SCAN_COMPLETE;
                         handler.sendMessage(msg);  //更新UI界面
 
-                        // 根据a-z进行排序源数据
-                        Collections.sort(musicInfoList);
-                        dbManager.updateAllMusic(musicInfoList);
                     }else {
                         msg = new Message();
                         msg.what = Constant.SCAN_NO_MUSIC;
@@ -236,6 +248,42 @@ public class ScanActivity extends BaseActivity {
             Log.e(TAG, "replaseUnKnowe: error = ",e );
         }
         return oldStr;
+    }
+
+    //初始化当前播放音乐，有可能当前正在播放音乐已经被过滤掉了
+    private void initCurPlaying(){
+        try {
+            boolean contain = false;
+            int id = 1;
+            if (musicInfoList != null){
+                for (MusicInfo info : musicInfoList){
+                    Log.d(TAG, "initCurPlaying: info.getPath() = "+info.getPath());
+                    Log.d(TAG, "initCurPlaying: curMusicPath = "+ curMusicPath);
+                    if (info.getPath().equals(curMusicPath)){
+                        contain = true;
+                        Log.d(TAG, "initCurPlaying: musicInfoList.indexOf(info) = "+musicInfoList.indexOf(info));
+                        id = musicInfoList.indexOf(info) + 1;
+                    }
+
+                }
+            }
+            if (contain){
+                Log.d(TAG, "initCurPlaying: contains");
+//                if (filterCb.isChecked()) {
+                    Log.d(TAG, "initCurPlaying: id = "+id);
+                    MyMusicUtil.setShared(Constant.KEY_ID, id);
+//                }
+            }else {
+                Log.d(TAG, "initCurPlaying: !!!contains");
+                Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
+                intent.putExtra(Constant.COMMAND, Constant.COMMAND_STOP);
+                sendBroadcast(intent);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -61,7 +61,10 @@
                 android:paddingTop="3dp"
                 android:text="819471217@qq.com" />
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/divider"></View>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -117,7 +120,10 @@
                 android:paddingTop="3dp"
                 android:text="前往我的github项目给个start" />
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/divider"></View>
         <LinearLayout
             android:id="@+id/about_score_ll"
             android:layout_width="match_parent"
@@ -143,5 +149,9 @@
                 android:paddingTop="3dp"
                 android:text="前往应用商店评价或评分" />
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/divider"></View>
     </LinearLayout>
 </ScrollView>
