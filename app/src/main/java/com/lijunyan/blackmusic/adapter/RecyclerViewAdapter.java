@@ -2,7 +2,6 @@ package com.lijunyan.blackmusic.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +18,7 @@ import com.lijunyan.blackmusic.database.DBManager;
 import com.lijunyan.blackmusic.entity.MusicInfo;
 import com.lijunyan.blackmusic.service.MusicPlayerService;
 import com.lijunyan.blackmusic.util.Constant;
+import com.lijunyan.blackmusic.util.CustomAttrValueUtil;
 import com.lijunyan.blackmusic.util.MyMusicUtil;
 
 import java.util.List;
@@ -115,16 +115,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.musicSinger.setText(musicInfo.getSinger());
 
         //获取主题颜色
-        int defaultColor = 0xFFFA7298;
-        int[] attrsArray = {R.attr.colorAccent};
-        TypedArray typedArray = context.obtainStyledAttributes(attrsArray);
-        int appbg = typedArray.getColor(0, defaultColor);
-        typedArray.recycle();
+//        int defaultColor = 0xFFFA7298;
+//        int[] attrsArray = {R.attr.colorAccent};
+//        TypedArray typedArray = context.obtainStyledAttributes(attrsArray);
+//        int appbg = typedArray.getColor(0, defaultColor);
+//        typedArray.recycle();
 
-        int[] attrs = {R.attr.text_color};
-        TypedArray typed = context.obtainStyledAttributes(attrs);
-        int defaultTvColor = typed.getColor(0, context.getResources().getColor(R.color.grey700));
-        typedArray.recycle();
+        int appbg = CustomAttrValueUtil.getAttrColorValue(R.attr.colorAccent,0xFFFA7298,context);
+        int defaultTvColor = CustomAttrValueUtil.getAttrColorValue(R.attr.text_color,R.color.grey700,context);
+
+//        int[] attrs = {R.attr.text_color};
+//        TypedArray typed = context.obtainStyledAttributes(attrs);
+//        int defaultTvColor = typed.getColor(0, context.getResources().getColor(R.color.grey700));
+//        typedArray.recycle();
 
         if (musicInfo.getId() == MyMusicUtil.getIntShared(Constant.KEY_ID)){
             holder.musicName.setTextColor(appbg);

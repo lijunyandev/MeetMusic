@@ -59,7 +59,7 @@
                 android:gravity="center_vertical|top"
                 android:paddingLeft="20dp"
                 android:paddingTop="3dp"
-                android:text="819471217@qq.com" />
+                android:text="lijunyandev@foxmail.com" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"

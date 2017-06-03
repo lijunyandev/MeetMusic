@@ -93,7 +93,6 @@ public class HomeActivity extends PlayBarBaseActivity {
                         isStartTheme = true;
                         Intent intentTheme = new Intent(HomeActivity.this,ThemeActivity.class);
                         startActivity(intentTheme);
-//                        overridePendingTransition(R.anim.in_from_right_anim,R.anim.out_to_left_anim);
                         break;
                     case R.id.nav_night_mode:
                         int preTheme = 0;
@@ -268,7 +267,7 @@ public class HomeActivity extends PlayBarBaseActivity {
     protected void onPause() {
         super.onPause();
         if (isStartTheme){
-            HomeActivity.this.finish();
+//            HomeActivity.this.finish();
         }
         isStartTheme = false;
     }

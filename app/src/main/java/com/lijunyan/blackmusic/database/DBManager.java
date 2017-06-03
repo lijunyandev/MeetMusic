@@ -575,7 +575,7 @@ public class DBManager {
     //保留最近的20首
     public void setLastPlay(int id) {
         Log.i(TAG, "setLastPlay: id = " + id);
-        if (id == -1) {
+        if (id == -1 || id == 0) {
             return;
         }
         ContentValues values = new ContentValues();

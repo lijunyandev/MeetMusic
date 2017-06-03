@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -24,6 +27,7 @@ import com.lijunyan.blackmusic.fragment.PlayBarFragment;
 import com.lijunyan.blackmusic.receiver.PlayerManagerReceiver;
 import com.lijunyan.blackmusic.service.MusicPlayerService;
 import com.lijunyan.blackmusic.util.Constant;
+import com.lijunyan.blackmusic.util.CustomAttrValueUtil;
 import com.lijunyan.blackmusic.util.MyMusicUtil;
 import com.lijunyan.blackmusic.view.PlayingPopWindow;
 
@@ -87,6 +91,7 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
         nextIv.setOnClickListener(this);
         modeIv.setOnClickListener(this);
 
+        setSeekBarBg();
         initPlayMode();
         initTitle();
         initPlayIv();
@@ -225,6 +230,18 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
         initPlayMode();
     }
 
+    private void setSeekBarBg(){
+        try {
+            int progressColor = CustomAttrValueUtil.getAttrColorValue(R.attr.colorPrimary,R.color.colorAccent,this);
+            LayerDrawable layerDrawable = (LayerDrawable) seekBar.getProgressDrawable();
+            ScaleDrawable scaleDrawable = (ScaleDrawable)layerDrawable.findDrawableByLayerId(android.R.id.progress);
+            GradientDrawable drawable = (GradientDrawable) scaleDrawable.getDrawable();
+            drawable.setColor(progressColor);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void play() {
         int musicId;
         musicId = MyMusicUtil.getIntShared(Constant.KEY_ID);
@@ -336,4 +353,5 @@ public class PlayActivity extends BaseActivity implements View.OnClickListener {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
+
 }

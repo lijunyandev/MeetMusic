@@ -8,7 +8,7 @@
 <!--</style>-->
 
      <!--Base application nav_theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your nav_theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -21,7 +21,7 @@
         <item name="android:textColor">@color/colorBlack</item>
         <item name="text_color">@color/colorBlack</item>
         <item name="appbg">@android:color/white</item>
-        <item name="layout_press">@color/grey200</item>
+        <!--<item name="my_selector_layout">@drawable/selector_layout</item>-->
         <item name="divider">@color/colorDividerGray</item>
         <item name="android:windowAnimationStyle">@style/Animation</item>
         <item name="play_bar_color">@android:color/white</item>
@@ -102,7 +102,7 @@
         <item name="press_color">@color/startSkyGray50</item>
     </style>
     <!--<style name="NightModeTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-    <style name="NightModeTheme" parent="Theme.AppCompat.NoActionBar">
+    <style name="NightModeTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">@color/nightActionbar</item>
         <item name="colorPrimaryDark">@color/nightActionbar</item>
         <item name="colorAccent">@color/biliPink</item>
@@ -110,7 +110,7 @@
         <item name="appbg">@color/nightBg</item>
         <item name="divider">@color/nightActionbar</item>
         <item name="press_color">@color/biliPink50</item>
-        <item name="layout_press">@color/nightActionbar</item>
+        <!--<item name="my_selector_layout">@drawable/selector_layout</item>-->
         <item name="play_bar_color">@color/nightActionbar</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="text_color">@color/colorWhite</item>

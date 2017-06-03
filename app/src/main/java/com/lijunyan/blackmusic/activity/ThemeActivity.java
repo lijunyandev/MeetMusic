@@ -1,6 +1,5 @@
 package com.lijunyan.blackmusic.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -57,9 +56,9 @@ public class ThemeActivity extends BaseActivity {
             info.setColor(colors[i]);
             info.setSelect((selectTheme == i) ? true : false);
             if (i == themeType.length-1){
-                info.setBackgroung(R.color.nightBg);
+                info.setBackground(R.color.nightBg);
             }else {
-                info.setBackgroung(R.color.colorWhite);
+                info.setBackground(R.color.colorWhite);
             }
             themeInfoList.add(info);
         }
@@ -77,9 +76,10 @@ public class ThemeActivity extends BaseActivity {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(ThemeActivity.this,HomeActivity.class);
+                finish();
+//                Intent intent = new Intent(ThemeActivity.this,HomeActivity.class);
 //                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+//                startActivity(intent);
 //                overridePendingTransition(R.anim.in_from_left_anim,R.anim.out_to_right_anim);
                 break;
         }
@@ -116,6 +116,14 @@ public class ThemeActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, final int position) {
             final ThemeInfo themeInfo = themeInfoList.get(position);
+            if (selectTheme == THEME_SIZE-1){
+                holder.relativeLayout.setBackgroundResource(R.drawable.selector_layout_night);
+                holder.selectBtn.setBackgroundResource(R.drawable.shape_theme_btn_night);
+            }else {
+                holder.relativeLayout.setBackgroundResource(R.drawable.selector_layout_day);
+                holder.selectBtn.setBackgroundResource(R.drawable.shape_theme_btn_day);
+            }
+            holder.selectBtn.setPadding(0,0,0,0);
             if (themeInfo.isSelect()){
                 holder.circleIv.setImageResource(R.drawable.tick);
                 holder.selectBtn.setText("使用中");
@@ -149,15 +157,15 @@ public class ThemeActivity extends BaseActivity {
     }
 
     private void refreshTheme(ThemeInfo themeInfo,int position){
-        if (position == themeInfoList.size()){
+        if (position == (THEME_SIZE-1)){
             MyMusicUtil.setNightMode(ThemeActivity.this,true);
         }else if(MyMusicUtil.getNightMode(ThemeActivity.this)){
             MyMusicUtil.setNightMode(ThemeActivity.this,false);
         }
-        
+        selectTheme = position;
         MyMusicUtil.setTheme(ThemeActivity.this,position);
         toolbar.setBackgroundColor(getResources().getColor(themeInfo.getColor()));
-        recyclerView.setBackgroundColor(getResources().getColor(themeInfo.getBackgroung()));
+        recyclerView.setBackgroundColor(getResources().getColor(themeInfo.getBackground()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(getResources().getColor(themeInfo.getColor()));
         }

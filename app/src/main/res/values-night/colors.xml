@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--夜间模式下 通用背景色-->
+    <color name="common_bg">#2c2c2c</color>
+    <!--夜间模式下 触摸背景色-->
+    <color name="common_touch_bg">#3b3b3b</color>
+
+    <color name="layout_day_normal">#FFFFFF</color>
+    <color name="layout_day_press">#ffeeeeee</color>
+    <color name="layout_night_normal">#2c2c2c</color>
+    <color name="layout_night_press">#3b3b3b</color>
+</resources>

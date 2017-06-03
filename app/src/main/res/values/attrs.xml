@@ -7,7 +7,7 @@
         <attr name="accent_color" format="reference"/>
         <attr name="divider" format="reference"/>
         <attr name="image_tint" format="reference"/>
-        <attr name="layout_press" format="reference"/>
+        <attr name="my_selector_layout" format="reference"/>
         <attr name="text_color" format="color"/>
     </declare-styleable>
 </resources>

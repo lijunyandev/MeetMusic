@@ -98,10 +98,11 @@ public class ScanView extends View {
         Log.d(TAG, "ScanView: circlrColor1 = "+ circlrColor1);
         initBitmap();
     }
-    private String colorToHexString(int color){
+    public static String colorToHexString(int color){
         String colorHex;
-        if (color == 0){
-            colorHex = "00";
+        Log.d(TAG, "colorToHexString: color = "+color);
+        if (color < 16){
+            colorHex = "0"+ Integer.toHexString(color);
         }else {
             colorHex = Integer.toHexString(color);
         }

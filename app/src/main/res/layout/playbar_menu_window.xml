@@ -62,17 +62,6 @@
                 android:src="@drawable/play_mode_level_list"
                 android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/playing_list_playmode_Tv"
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:textColor="@drawable/selector_textview"
-                android:textSize="16sp"
-                android:visibility="gone"/>
         </LinearLayout>
 
         <View

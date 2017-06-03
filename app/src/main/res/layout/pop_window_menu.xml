@@ -147,7 +147,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/selector_layout"
+         android:background="@drawable/selector_layout"
         android:clickable="true"
         android:visibility="gone"
         android:gravity="center_vertical"

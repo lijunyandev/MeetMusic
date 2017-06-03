@@ -7,10 +7,10 @@
     </item>
 
     <item android:id="@android:id/progress">
-        <clip>
+        <scale android:scaleGravity="left" android:scaleWidth="100%" >
             <shape>
-                <solid android:color="?attr/colorPrimary" />
+                <solid android:color="@color/colorPrimary" />
             </shape>
-        </clip>
+        </scale>
     </item>
 </layer-list>

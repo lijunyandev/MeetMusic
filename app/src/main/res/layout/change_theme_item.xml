@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:clickable="true"
+    android:background="@drawable/selector_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.makeramen.roundedimageview.RoundedImageView
         android:layout_centerVertical="true"
@@ -32,11 +33,11 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
+        android:background="@drawable/shape_theme_btn_day"
         android:text="使用"
         android:textColor="@color/grey500"
         android:textSize="14sp"
-        android:layout_centerVertical="true"
-        android:background="@drawable/shape_theme_btn"/>
+        android:layout_centerVertical="true"/>
 
     <View
         android:layout_width="match_parent"

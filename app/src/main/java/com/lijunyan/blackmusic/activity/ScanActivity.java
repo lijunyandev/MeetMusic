@@ -2,6 +2,8 @@ package com.lijunyan.blackmusic.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,7 +24,9 @@ import com.lijunyan.blackmusic.entity.MusicInfo;
 import com.lijunyan.blackmusic.service.MusicPlayerService;
 import com.lijunyan.blackmusic.util.ChineseToEnglish;
 import com.lijunyan.blackmusic.util.Constant;
+import com.lijunyan.blackmusic.util.CustomAttrValueUtil;
 import com.lijunyan.blackmusic.util.MyMusicUtil;
+import com.lijunyan.blackmusic.util.SelectorUtil;
 import com.lijunyan.blackmusic.view.ScanView;
 
 import java.io.File;
@@ -60,6 +64,7 @@ public class ScanActivity extends BaseActivity {
         setContentView(R.layout.activity_scan);
         dbManager = DBManager.getInstance(ScanActivity.this);
         scanBtn = (Button) findViewById(R.id.start_scan_btn);
+        setScanBtnBg();
         toolbar = (Toolbar) findViewById(R.id.scan_music_toolbar);
         scanProgressTv = (TextView) findViewById(R.id.scan_progress);
         scanCountTv = (TextView) findViewById(R.id.scan_count);
@@ -147,7 +152,7 @@ public class ScanActivity extends BaseActivity {
                             MediaStore.Audio.Media.DATA};               //歌曲文件的全路径
                     Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                             muiscInfoArray, null, null, null);
-                    if (cursor.getCount() != 0){
+                    if (cursor!= null && cursor.getCount() != 0){
                         musicInfoList = new ArrayList<MusicInfo>();
                         Log.i(TAG, "run: cursor.getCount() = " + cursor.getCount());
                         while (cursor.moveToNext()) {
@@ -269,10 +274,8 @@ public class ScanActivity extends BaseActivity {
             }
             if (contain){
                 Log.d(TAG, "initCurPlaying: contains");
-//                if (filterCb.isChecked()) {
                     Log.d(TAG, "initCurPlaying: id = "+id);
                     MyMusicUtil.setShared(Constant.KEY_ID, id);
-//                }
             }else {
                 Log.d(TAG, "initCurPlaying: !!!contains");
                 Intent intent = new Intent(MusicPlayerService.PLAYER_MANAGER_ACTION);
@@ -284,6 +287,14 @@ public class ScanActivity extends BaseActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private void setScanBtnBg(){
+        int defColor = CustomAttrValueUtil.getAttrColorValue(R.attr.colorAccent,R.color.colorAccent,this);
+        int pressColor = CustomAttrValueUtil.getAttrColorValue(R.attr.press_color,R.color.colorAccent,this);
+        Drawable backgroundDrawable =  scanBtn.getBackground();
+        StateListDrawable sld = (StateListDrawable) backgroundDrawable;// 通过向下转型，转回原型，selector对应的Java类为：StateListDrawable
+        SelectorUtil.changeViewColor(sld,new int[]{pressColor,defColor});
     }
 
     @Override

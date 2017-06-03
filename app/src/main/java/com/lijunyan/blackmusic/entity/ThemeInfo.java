@@ -10,16 +10,16 @@ import android.os.Parcelable;
 public class ThemeInfo implements Parcelable {
     private String name;
     private int color;
-    private int backgroung;
+    private int background;
     private boolean isSelect;
 
 
-    public int getBackgroung() {
-        return backgroung;
+    public int getBackground() {
+        return background;
     }
 
-    public void setBackgroung(int backgroung) {
-        this.backgroung = backgroung;
+    public void setBackground(int background) {
+        this.background = background;
     }
 
     public String getName() {
@@ -58,14 +58,14 @@ public class ThemeInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeInt(this.color);
-        dest.writeInt(this.backgroung);
+        dest.writeInt(this.background);
         dest.writeByte(this.isSelect ? (byte) 1 : (byte) 0);
     }
 
     protected ThemeInfo(Parcel in) {
         this.name = in.readString();
         this.color = in.readInt();
-        this.backgroung = in.readInt();
+        this.background = in.readInt();
         this.isSelect = in.readByte() != 0;
     }
 
