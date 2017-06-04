@@ -267,7 +267,7 @@ public class HomeActivity extends PlayBarBaseActivity {
     protected void onPause() {
         super.onPause();
         if (isStartTheme){
-//            HomeActivity.this.finish();
+            HomeActivity.this.finish();
         }
         isStartTheme = false;
     }

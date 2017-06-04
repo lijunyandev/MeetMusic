@@ -1,5 +1,6 @@
 package com.lijunyan.blackmusic.activity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -76,10 +77,9 @@ public class ThemeActivity extends BaseActivity {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
-//                Intent intent = new Intent(ThemeActivity.this,HomeActivity.class);
+                Intent intent = new Intent(ThemeActivity.this,HomeActivity.class);
 //                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(intent);
+                startActivity(intent);
 //                overridePendingTransition(R.anim.in_from_left_anim,R.anim.out_to_right_anim);
                 break;
         }

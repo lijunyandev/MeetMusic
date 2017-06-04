@@ -85,7 +85,7 @@ public class ScanActivity extends BaseActivity {
                     startScanLocalMusic();
                     scanView.start();
                     scanBtn.setText("停止扫描");
-                }else {
+                } else {
                     scanPathTv.setVisibility(View.GONE);
                     scanning = false;
                     scanView.stop();
@@ -113,9 +113,9 @@ public class ScanActivity extends BaseActivity {
                         scanComplete();
                         break;
                     case Constant.SCAN_UPDATE:
-                        int updateProgress = msg.getData().getInt("progress");
+//                        int updateProgress = msg.getData().getInt("progress");
                         String path = msg.getData().getString("scanPath");
-                        scanCountTv.setText("已扫描到" + updateProgress + "首歌曲");
+                        scanCountTv.setText("已扫描到" + progress + "首歌曲");
                         scanPathTv.setText(path);
                         break;
                 }
@@ -191,17 +191,15 @@ public class ScanActivity extends BaseActivity {
                             musicInfoList.add(musicInfo);
                             progress++;
                             scanPath = path;
-
                             musicCount = cursor.getCount();
                             msg = new Message();    //每次都必须new，必须发送新对象，不然会报错
                             msg.what = Constant.SCAN_UPDATE;
                             msg.arg1 = musicCount;
-                            Bundle data = new Bundle();
-                            data.putInt("progress", progress);
-                            data.putString("scanPath", scanPath);
-                            msg.setData(data);
+//                                Bundle data = new Bundle();
+//                                data.putInt("progress", progress);
+//                                data.putString("scanPath", scanPath);
+//                                msg.setData(data);
                             handler.sendMessage(msg);  //更新UI界面
-
                             try {
                                 sleep(50);
                             } catch (InterruptedException e) {
