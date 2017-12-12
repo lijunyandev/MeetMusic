@@ -14,4 +14,8 @@
 [Download](http://www.coolapk.com/apk/com.lijunyan.blackmusic)
 本项目目前已上架到酷安应用市场，可到酷安应用市场搜索“听听音乐”下载
 
+### 开源协议
+本项目可以供大家学习使用，如果用作商业用途，请先联系本人，否则侵权必究
+
+
 
